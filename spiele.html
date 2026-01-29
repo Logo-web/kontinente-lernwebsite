@@ -11,6 +11,74 @@
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/spiele.css">
+    <style>
+        /* Weltkarten-Klick Spiel Farben */
+        #wk-map {
+            background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%);
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        #wk-nordamerika {
+            fill: #c084fc;
+            stroke: #a855f7;
+        }
+
+        #wk-suedamerika {
+            fill: #fde047;
+            stroke: #facc15;
+        }
+
+        #wk-europa {
+            fill: #60a5fa;
+            stroke: #3b82f6;
+        }
+
+        #wk-afrika {
+            fill: #fb923c;
+            stroke: #f97316;
+        }
+
+        #wk-asien {
+            fill: #4ade80;
+            stroke: #22c55e;
+        }
+
+        #wk-australien {
+            fill: #f472b6;
+            stroke: #ec4899;
+        }
+
+        #wk-antarktis {
+            fill: #e5e7eb;
+            stroke: #d1d5db;
+        }
+
+        .wk-continent {
+            stroke-width: 2;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .wk-continent:hover {
+            filter: brightness(1.1);
+            stroke-width: 3;
+        }
+
+        .wk-continent:active {
+            transform: scale(0.98);
+        }
+
+        .wk-continent.correct {
+            fill: #22c55e !important;
+            stroke: #16a34a !important;
+        }
+
+        .wk-continent.wrong {
+            fill: #ef4444 !important;
+            stroke: #dc2626 !important;
+        }
+    </style>
 </head>
 
 <body>
