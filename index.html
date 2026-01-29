@@ -112,6 +112,102 @@
             padding: 8px;
             overflow: visible;
         }
+
+        /* Mobile Responsive Styles */
+        @media (max-width: 600px) {
+            .world-map-object {
+                min-height: 250px;
+                border-radius: 12px;
+                border-width: 2px;
+            }
+
+            .legende {
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                justify-content: flex-start;
+                padding: 10px 12px;
+                gap: 8px;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+            }
+
+            .legende::-webkit-scrollbar {
+                display: none;
+            }
+
+            .legende-item {
+                flex-shrink: 0;
+                padding: 8px 14px;
+                font-size: 12px;
+                min-height: 40px;
+            }
+
+            .legende-farbe {
+                width: 14px;
+                height: 14px;
+            }
+
+            .map-container-wrapper {
+                padding: 6px;
+                border-radius: 14px;
+            }
+
+            .kontinent-tooltip {
+                font-size: 13px;
+                padding: 8px 14px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .world-map-object {
+                min-height: 200px;
+            }
+
+            .legende {
+                padding: 8px 10px;
+                gap: 6px;
+                margin-top: 8px;
+            }
+
+            .legende-item {
+                padding: 6px 10px;
+                font-size: 11px;
+                gap: 4px;
+            }
+
+            .legende-farbe {
+                width: 12px;
+                height: 12px;
+            }
+        }
+
+        /* Touch device optimizations */
+        @media (hover: none) and (pointer: coarse) {
+            .legende-item {
+                min-height: 44px;
+            }
+
+            .legende-item:hover {
+                transform: none;
+            }
+
+            .legende-item:active {
+                transform: scale(0.98);
+                background: rgba(0, 0, 0, 0.05);
+            }
+        }
+
+        /* Landscape on phones */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .world-map-object {
+                min-height: 180px;
+            }
+
+            .legende {
+                margin-top: 6px;
+                padding: 6px 10px;
+            }
+        }
     </style>
 </head>
 

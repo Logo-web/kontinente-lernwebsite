@@ -322,7 +322,132 @@
    RESPONSIVE
    ======================================== */
 
-@media (max-width: 768px) {
+/* Extra small devices (phones, 375px and below) */
+@media (max-width: 400px) {
+    .back-btn {
+        font-size: 0.85rem;
+        padding: 6px 10px;
+    }
+
+    .tab-nav {
+        gap: var(--spacing-xs);
+        padding: var(--spacing-xs);
+        overflow-x: auto;
+        justify-content: flex-start;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+
+    .tab-nav::-webkit-scrollbar {
+        display: none;
+    }
+
+    .tab-btn {
+        flex-shrink: 0;
+        padding: var(--spacing-xs) var(--spacing-sm);
+        font-size: 0.85rem;
+        white-space: nowrap;
+    }
+
+    .tab-content {
+        padding: var(--spacing-xs);
+    }
+
+    .section-title {
+        font-size: 1.15rem;
+        padding-left: var(--spacing-xs);
+    }
+
+    .cards-container {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-sm);
+    }
+
+    .card-image {
+        height: 100px;
+        font-size: 3rem;
+    }
+
+    .card-content h3 {
+        font-size: 1.1rem;
+    }
+
+    .card-content p {
+        font-size: 0.85rem;
+    }
+
+    .games-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--spacing-sm);
+        padding: var(--spacing-xs);
+    }
+
+    .game-card {
+        padding: var(--spacing-md);
+    }
+
+    .game-icon {
+        font-size: 2rem;
+    }
+
+    .game-card h3 {
+        font-size: 1rem;
+    }
+
+    .game-card p {
+        font-size: 0.8rem;
+    }
+
+    .card-detail {
+        width: 95%;
+        max-width: none;
+    }
+
+    .modal-image {
+        height: 150px;
+        font-size: 4rem;
+    }
+
+    .card-detail h2 {
+        font-size: 1.25rem;
+        padding: var(--spacing-sm);
+    }
+
+    .card-detail p {
+        font-size: 1rem;
+        padding: 0 var(--spacing-sm);
+    }
+
+    .fakt-box {
+        margin: var(--spacing-sm);
+        padding: var(--spacing-sm);
+        font-size: 0.9rem;
+    }
+}
+
+/* Small devices (phones, 400px to 600px) */
+@media (max-width: 600px) {
+    .tab-nav {
+        overflow-x: auto;
+        justify-content: flex-start;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .tab-btn {
+        flex-shrink: 0;
+    }
+
+    .cards-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .games-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Medium devices (tablets, 600px to 768px) */
+@media (min-width: 601px) and (max-width: 768px) {
     .tab-nav {
         top: auto;
         position: relative;
@@ -334,14 +459,117 @@
     }
 
     .cards-container {
-        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        grid-template-columns: repeat(2, 1fr);
     }
 
     .card-image {
-        height: 120px;
+        height: 130px;
     }
 
     .games-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Large devices (tablets landscape, 768px to 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .cards-container {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .games-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .tab-content {
+        max-width: 900px;
+    }
+}
+
+/* Extra large devices (desktops, 1024px and up) */
+@media (min-width: 1025px) {
+    .cards-container {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .games-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+    .tab-btn {
+        min-height: 48px;
+    }
+
+    .info-card:hover {
+        transform: none;
+        box-shadow: var(--shadow-soft);
+    }
+
+    .info-card:active {
+        transform: scale(0.98);
+    }
+
+    .game-card:hover {
+        transform: none;
+        box-shadow: var(--shadow-soft);
+    }
+
+    .game-card:active {
+        transform: scale(0.98);
+    }
+
+    .close-modal-btn {
+        width: 48px;
+        height: 48px;
+        font-size: 1.75rem;
+    }
+}
+
+/* Landscape orientation on phones */
+@media (max-height: 500px) and (orientation: landscape) {
+    .tab-nav {
+        position: relative;
+        padding: var(--spacing-xs);
+    }
+
+    .tab-content {
+        padding: var(--spacing-xs) var(--spacing-sm);
+    }
+
+    .info-section {
+        margin-bottom: var(--spacing-md);
+    }
+
+    .section-title {
+        margin-bottom: var(--spacing-sm);
+    }
+
+    .card-image {
+        height: 80px;
+    }
+
+    .modal-content {
+        max-height: 95vh;
+        overflow-y: auto;
+    }
+
+    .modal-image {
+        height: 120px;
+    }
+}
+
+/* Safe area insets for notched devices */
+@supports (padding: max(0px)) {
+    .tab-nav {
+        padding-left: max(var(--spacing-sm), env(safe-area-inset-left));
+        padding-right: max(var(--spacing-sm), env(safe-area-inset-right));
+    }
+
+    .tab-content {
+        padding-left: max(var(--spacing-sm), env(safe-area-inset-left));
+        padding-right: max(var(--spacing-sm), env(safe-area-inset-right));
     }
 }

@@ -562,6 +562,128 @@
    RESPONSIVE
    ======================================== */
 
+/* Extra small devices (phones, 375px and below) */
+@media (max-width: 400px) {
+    .spiel-container {
+        padding: var(--spacing-sm);
+    }
+
+    .spiel-container h2 {
+        font-size: 1.25rem;
+        margin-bottom: var(--spacing-md);
+    }
+
+    .games-selection {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--spacing-sm);
+    }
+
+    .game-select-btn {
+        padding: var(--spacing-sm);
+    }
+
+    .game-select-btn .icon {
+        font-size: 1.75rem;
+    }
+
+    .game-select-btn .name {
+        font-size: 0.9rem;
+    }
+
+    .question-card p,
+    .statement-card p {
+        font-size: 1.1rem;
+    }
+
+    .option-btn {
+        font-size: 1rem;
+        padding: var(--spacing-sm);
+        min-height: 50px;
+    }
+
+    .rf-buttons {
+        flex-direction: row;
+        gap: var(--spacing-sm);
+    }
+
+    .rf-btn {
+        flex: 1;
+        padding: var(--spacing-sm);
+        min-width: 0;
+    }
+
+    .rf-btn span:first-child {
+        font-size: 2rem;
+    }
+
+    .rf-btn span:last-child {
+        font-size: 0.9rem;
+    }
+
+    .memory-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 4px;
+    }
+
+    .memory-card {
+        font-size: 1.2rem;
+        border-width: 2px;
+    }
+
+    .memory-card .back {
+        font-size: 1.2rem;
+    }
+
+    .zuordnung-emoji {
+        font-size: 3.5rem;
+    }
+
+    .zuordnung-item p {
+        font-size: 1.2rem;
+    }
+
+    .zuordnung-options {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--spacing-xs);
+    }
+
+    .zuordnung-btn {
+        font-size: 0.85rem;
+        padding: var(--spacing-xs);
+    }
+
+    .feedback {
+        font-size: 1rem;
+        padding: var(--spacing-sm);
+        bottom: 10px;
+        left: 10px;
+        right: 10px;
+        transform: none;
+        width: auto;
+    }
+
+    .ergebnis-emoji {
+        font-size: 3.5rem;
+    }
+
+    .ergebnis-content h2 {
+        font-size: 1.5rem;
+    }
+
+    .ergebnis-punkte {
+        font-size: 2rem;
+    }
+
+    .wk-aufgabe h2 {
+        font-size: 1.5rem;
+    }
+
+    .small-map {
+        max-width: 100%;
+    }
+}
+
+/* Small devices (phones, 400px to 600px) */
 @media (max-width: 600px) {
     .games-selection {
         grid-template-columns: repeat(2, 1fr);
@@ -595,5 +717,155 @@
 
     .zuordnung-options {
         grid-template-columns: repeat(2, 1fr);
+    }
+
+    .question-card,
+    .statement-card {
+        padding: var(--spacing-md);
+    }
+
+    .options-container {
+        width: 100%;
+    }
+
+    .ergebnis-buttons {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .ergebnis-buttons button {
+        width: 100%;
+    }
+}
+
+/* Medium devices (tablets portrait, 600px to 768px) */
+@media (min-width: 601px) and (max-width: 768px) {
+    .games-selection {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .memory-grid {
+        max-width: 400px;
+    }
+
+    .zuordnung-options {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Large devices (tablets landscape, 768px to 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .games-selection {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .spiel-container {
+        max-width: 900px;
+    }
+
+    .memory-grid {
+        max-width: 500px;
+    }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+    .option-btn {
+        min-height: 56px;
+    }
+
+    .option-btn:hover {
+        background: var(--color-white);
+        transform: none;
+    }
+
+    .option-btn:active {
+        background: var(--color-ocean);
+        transform: scale(0.98);
+    }
+
+    .game-select-btn:hover {
+        transform: none;
+        box-shadow: var(--shadow-soft);
+    }
+
+    .game-select-btn:active {
+        transform: scale(0.98);
+        border-color: var(--color-success);
+    }
+
+    .rf-btn:hover {
+        transform: none;
+    }
+
+    .rf-btn:active {
+        transform: scale(0.95);
+    }
+
+    .memory-card:hover {
+        transform: none;
+    }
+
+    .memory-card:active:not(.flipped):not(.matched) {
+        transform: scale(0.95);
+    }
+
+    .zuordnung-btn:hover {
+        background: var(--color-white);
+        transform: none;
+    }
+
+    .zuordnung-btn:active {
+        background: var(--color-ocean);
+        transform: scale(0.98);
+    }
+}
+
+/* Landscape orientation on phones */
+@media (max-height: 500px) and (orientation: landscape) {
+    .spiel-container {
+        padding: var(--spacing-sm);
+    }
+
+    .progress-bar {
+        margin-bottom: var(--spacing-sm);
+    }
+
+    .spiel-content {
+        gap: var(--spacing-sm);
+    }
+
+    .question-card,
+    .statement-card {
+        padding: var(--spacing-sm);
+    }
+
+    .question-card p,
+    .statement-card p {
+        font-size: 1.1rem;
+    }
+
+    .options-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--spacing-xs);
+    }
+
+    .option-btn {
+        font-size: 0.95rem;
+        padding: var(--spacing-xs) var(--spacing-sm);
+        min-height: 44px;
+    }
+
+    .memory-grid {
+        max-width: 400px;
+    }
+
+    .ergebnis-content {
+        padding: var(--spacing-md);
+    }
+
+    .ergebnis-emoji {
+        font-size: 3rem;
     }
 }

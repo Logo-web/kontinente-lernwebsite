@@ -12,7 +12,7 @@
     --color-europa: #A5D6A7;
     --color-nordamerika: #90CAF9;
     --color-suedamerika: #CE93D8;
-    
+
     /* Allgemeine Farben */
     --color-ocean: #B3E5FC;
     --color-ocean-dark: #81D4FA;
@@ -21,19 +21,19 @@
     --color-white: #FFFFFF;
     --color-success: #66BB6A;
     --color-error: #EF5350;
-    
+
     /* Schatten & Effekte */
     --shadow-soft: 0 4px 15px rgba(0, 0, 0, 0.1);
     --shadow-medium: 0 8px 30px rgba(0, 0, 0, 0.15);
     --shadow-hover: 0 12px 40px rgba(0, 0, 0, 0.2);
-    
+
     /* Abstände */
     --spacing-xs: 0.5rem;
     --spacing-sm: 1rem;
     --spacing-md: 1.5rem;
     --spacing-lg: 2rem;
     --spacing-xl: 3rem;
-    
+
     /* Border Radius */
     --radius-sm: 8px;
     --radius-md: 16px;
@@ -45,7 +45,9 @@
    RESET & BASIS
    ======================================== */
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
@@ -105,7 +107,9 @@ body {
    BUTTONS
    ======================================== */
 
-.btn-primary, .btn-secondary, .btn-ranking {
+.btn-primary,
+.btn-secondary,
+.btn-ranking {
     font-family: 'Nunito', sans-serif;
     font-size: 1.1rem;
     font-weight: 700;
@@ -125,7 +129,8 @@ body {
     box-shadow: var(--shadow-soft);
 }
 
-.btn-primary:hover, .btn-primary:focus {
+.btn-primary:hover,
+.btn-primary:focus {
     transform: translateY(-2px);
     box-shadow: var(--shadow-hover);
 }
@@ -192,7 +197,8 @@ body {
     filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.1));
 }
 
-.continent:hover, .continent:focus {
+.continent:hover,
+.continent:focus {
     transform: scale(1.02);
     filter: drop-shadow(4px 4px 8px rgba(0, 0, 0, 0.2));
     stroke-width: 3;
@@ -203,22 +209,62 @@ body {
 }
 
 /* Kontinent-spezifische Farben */
-#afrika { fill: var(--color-afrika); }
-#antarktis { fill: var(--color-antarktis); }
-#asien { fill: var(--color-asien); }
-#australien { fill: var(--color-australien); }
-#europa { fill: var(--color-europa); }
-#nordamerika { fill: var(--color-nordamerika); }
-#suedamerika { fill: var(--color-suedamerika); }
+#afrika {
+    fill: var(--color-afrika);
+}
+
+#antarktis {
+    fill: var(--color-antarktis);
+}
+
+#asien {
+    fill: var(--color-asien);
+}
+
+#australien {
+    fill: var(--color-australien);
+}
+
+#europa {
+    fill: var(--color-europa);
+}
+
+#nordamerika {
+    fill: var(--color-nordamerika);
+}
+
+#suedamerika {
+    fill: var(--color-suedamerika);
+}
 
 /* Hover-Effekte für Kontinente */
-#afrika:hover { fill: #FFCC80; }
-#antarktis:hover { fill: #B2EBF2; }
-#asien:hover { fill: #FFF176; }
-#australien:hover { fill: #FFCCBC; }
-#europa:hover { fill: #C8E6C9; }
-#nordamerika:hover { fill: #BBDEFB; }
-#suedamerika:hover { fill: #E1BEE7; }
+#afrika:hover {
+    fill: #FFCC80;
+}
+
+#antarktis:hover {
+    fill: #B2EBF2;
+}
+
+#asien:hover {
+    fill: #FFF176;
+}
+
+#australien:hover {
+    fill: #FFCCBC;
+}
+
+#europa:hover {
+    fill: #C8E6C9;
+}
+
+#nordamerika:hover {
+    fill: #BBDEFB;
+}
+
+#suedamerika:hover {
+    fill: #E1BEE7;
+}
 
 .continent-label {
     font-family: 'Nunito', sans-serif;
@@ -284,6 +330,7 @@ body {
         opacity: 0;
         transform: translateY(-20px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -382,37 +429,239 @@ body {
    RESPONSIVE DESIGN
    ======================================== */
 
-@media (max-width: 768px) {
+/* Extra Small devices (phones, 375px and below) */
+@media (max-width: 400px) {
+    html {
+        font-size: 14px;
+    }
+
     .header {
-        flex-direction: column;
-        gap: var(--spacing-sm);
-        padding: var(--spacing-sm);
+        padding: var(--spacing-xs);
+        gap: var(--spacing-xs);
     }
-    
+
     .title {
-        font-size: 1.25rem;
+        font-size: 1rem;
     }
-    
+
+    .header-right {
+        gap: var(--spacing-xs);
+    }
+
+    .player-name {
+        font-size: 0.85rem;
+        padding: 4px 8px;
+    }
+
+    .btn-ranking {
+        font-size: 0.9rem;
+        padding: 8px 12px;
+    }
+
     .main-content {
-        padding: var(--spacing-sm);
+        padding: var(--spacing-xs);
     }
-    
-    .continent-label {
-        font-size: 11px;
+
+    .world-map-container {
+        padding: var(--spacing-xs);
+        border-radius: var(--radius-sm);
     }
-    
+
     .instruction {
+        font-size: 0.9rem;
+        padding: var(--spacing-xs) var(--spacing-sm);
+        margin-top: var(--spacing-sm);
+    }
+
+    .modal-content {
+        padding: var(--spacing-md);
+        width: 95%;
+        max-width: none;
+    }
+
+    .modal-content h2 {
+        font-size: 1.5rem;
+    }
+
+    .modal-content input {
+        font-size: 1.1rem;
+    }
+
+    .ranking-content {
+        width: 95%;
+    }
+
+    .ranking-item {
+        padding: var(--spacing-xs);
+    }
+
+    .ranking-position {
+        font-size: 1.2rem;
+        min-width: 35px;
+    }
+
+    .ranking-name {
+        font-size: 0.9rem;
+    }
+
+    .ranking-score {
         font-size: 1rem;
     }
 }
 
-@media (min-width: 1024px) {
+/* Small devices (phones, 400px to 600px) */
+@media (max-width: 600px) {
+    .header {
+        flex-wrap: wrap;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .title {
+        width: 100%;
+        font-size: 1.15rem;
+        margin-bottom: var(--spacing-xs);
+    }
+
+    .main-content {
+        padding: var(--spacing-sm);
+    }
+
+    .continent-label {
+        font-size: 10px;
+    }
+
+    .instruction {
+        font-size: 0.95rem;
+    }
+
+    .ranking-content {
+        width: 95%;
+        max-width: 400px;
+    }
+}
+
+/* Medium devices (tablets, 600px to 768px) */
+@media (min-width: 601px) and (max-width: 768px) {
+    .header {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .title {
+        font-size: 1.35rem;
+    }
+
+    .continent-label {
+        font-size: 12px;
+    }
+}
+
+/* Large devices (tablets landscape, 768px to 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .title {
+        font-size: 1.75rem;
+    }
+
+    .continent-label {
+        font-size: 14px;
+    }
+
+    .world-map-container {
+        max-width: 800px;
+    }
+}
+
+/* Extra large devices (desktops, 1024px and up) */
+@media (min-width: 1025px) {
     .title {
         font-size: 2rem;
     }
-    
+
     .continent-label {
         font-size: 16px;
+    }
+
+    .world-map-container {
+        max-width: 950px;
+    }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+
+    /* Larger touch targets */
+    .btn-primary,
+    .btn-secondary,
+    .btn-ranking {
+        min-height: 52px;
+        padding: var(--spacing-sm) var(--spacing-lg);
+    }
+
+    .continent {
+        stroke-width: 1.5;
+    }
+
+    .continent:hover {
+        transform: none;
+    }
+
+    .continent:active {
+        transform: scale(0.98);
+        filter: brightness(1.1);
+    }
+
+    /* Disable hover effects that don't work well on touch */
+    .info-card:hover,
+    .game-card:hover {
+        transform: none;
+        box-shadow: var(--shadow-soft);
+    }
+
+    .info-card:active,
+    .game-card:active {
+        transform: scale(0.98);
+    }
+}
+
+/* Landscape orientation on phones */
+@media (max-height: 500px) and (orientation: landscape) {
+    .header {
+        padding: var(--spacing-xs) var(--spacing-sm);
+        position: relative;
+    }
+
+    .main-content {
+        padding: var(--spacing-xs) var(--spacing-sm);
+        min-height: auto;
+    }
+
+    .world-map-container {
+        max-height: 70vh;
+    }
+
+    .instruction {
+        margin-top: var(--spacing-xs);
+        padding: var(--spacing-xs);
+    }
+
+    .modal-content {
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+}
+
+/* Safe area insets for notched devices (iPhone X+) */
+@supports (padding: max(0px)) {
+    .header {
+        padding-left: max(var(--spacing-sm), env(safe-area-inset-left));
+        padding-right: max(var(--spacing-sm), env(safe-area-inset-right));
+    }
+
+    .main-content {
+        padding-left: max(var(--spacing-sm), env(safe-area-inset-left));
+        padding-right: max(var(--spacing-sm), env(safe-area-inset-right));
+        padding-bottom: max(var(--spacing-lg), env(safe-area-inset-bottom));
     }
 }
 
@@ -421,9 +670,12 @@ body {
    ======================================== */
 
 @keyframes pulse {
-    0%, 100% {
+
+    0%,
+    100% {
         transform: scale(1);
     }
+
     50% {
         transform: scale(1.02);
     }
@@ -433,11 +685,30 @@ body {
     animation: pulse 1s infinite;
 }
 
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+
+    body {
+        animation: none;
+    }
+}
+
 /* Wasser-Animation im Hintergrund */
 @keyframes wave {
-    0%, 100% {
+
+    0%,
+    100% {
         background-position: 0% 50%;
     }
+
     50% {
         background-position: 100% 50%;
     }
