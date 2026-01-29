@@ -1,0 +1,449 @@
+/* ========================================
+   KONTINENTE-LERNWEBSITE - DESIGN SYSTEM
+   ======================================== */
+
+/* CSS Variables - Farbpalette */
+:root {
+    /* Kontinente Farben (Pastelltöne) */
+    --color-afrika: #FFB347;
+    --color-antarktis: #E0F7FA;
+    --color-asien: #FFF59D;
+    --color-australien: #FFAB91;
+    --color-europa: #A5D6A7;
+    --color-nordamerika: #90CAF9;
+    --color-suedamerika: #CE93D8;
+    
+    /* Allgemeine Farben */
+    --color-ocean: #B3E5FC;
+    --color-ocean-dark: #81D4FA;
+    --color-text: #37474F;
+    --color-text-light: #607D8B;
+    --color-white: #FFFFFF;
+    --color-success: #66BB6A;
+    --color-error: #EF5350;
+    
+    /* Schatten & Effekte */
+    --shadow-soft: 0 4px 15px rgba(0, 0, 0, 0.1);
+    --shadow-medium: 0 8px 30px rgba(0, 0, 0, 0.15);
+    --shadow-hover: 0 12px 40px rgba(0, 0, 0, 0.2);
+    
+    /* Abstände */
+    --spacing-xs: 0.5rem;
+    --spacing-sm: 1rem;
+    --spacing-md: 1.5rem;
+    --spacing-lg: 2rem;
+    --spacing-xl: 3rem;
+    
+    /* Border Radius */
+    --radius-sm: 8px;
+    --radius-md: 16px;
+    --radius-lg: 24px;
+    --radius-full: 50%;
+}
+
+/* ========================================
+   RESET & BASIS
+   ======================================== */
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 16px;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    font-family: 'Nunito', sans-serif;
+    background: linear-gradient(135deg, var(--color-ocean) 0%, var(--color-ocean-dark) 100%);
+    color: var(--color-text);
+    min-height: 100vh;
+    overflow-x: hidden;
+    line-height: 1.6;
+}
+
+/* ========================================
+   HEADER
+   ======================================== */
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: var(--shadow-soft);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--color-text);
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.player-name {
+    font-weight: 600;
+    color: var(--color-text-light);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    background: var(--color-ocean);
+    border-radius: var(--radius-sm);
+}
+
+/* ========================================
+   BUTTONS
+   ======================================== */
+
+.btn-primary, .btn-secondary, .btn-ranking {
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    touch-action: manipulation;
+    min-height: 48px;
+    min-width: 48px;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--color-success) 0%, #4CAF50 100%);
+    color: var(--color-white);
+    box-shadow: var(--shadow-soft);
+}
+
+.btn-primary:hover, .btn-primary:focus {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+.btn-secondary {
+    background: var(--color-white);
+    color: var(--color-text);
+    border: 2px solid var(--color-ocean-dark);
+}
+
+.btn-secondary:hover {
+    background: var(--color-ocean);
+}
+
+.btn-ranking {
+    background: linear-gradient(135deg, #FFD700 0%, #FFA000 100%);
+    color: var(--color-text);
+    box-shadow: var(--shadow-soft);
+}
+
+.btn-ranking:hover {
+    transform: scale(1.05);
+}
+
+/* ========================================
+   MAIN CONTENT
+   ======================================== */
+
+.main-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--spacing-lg);
+    min-height: calc(100vh - 80px);
+}
+
+.world-map-container {
+    width: 100%;
+    max-width: 900px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-md);
+    box-shadow: var(--shadow-medium);
+}
+
+.world-map {
+    width: 100%;
+    height: auto;
+}
+
+/* ========================================
+   KONTINENTE (SVG)
+   ======================================== */
+
+.continent {
+    cursor: pointer;
+    transition: all 0.3s ease;
+    stroke: var(--color-text);
+    stroke-width: 2;
+    filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.continent:hover, .continent:focus {
+    transform: scale(1.02);
+    filter: drop-shadow(4px 4px 8px rgba(0, 0, 0, 0.2));
+    stroke-width: 3;
+}
+
+.continent:active {
+    transform: scale(0.98);
+}
+
+/* Kontinent-spezifische Farben */
+#afrika { fill: var(--color-afrika); }
+#antarktis { fill: var(--color-antarktis); }
+#asien { fill: var(--color-asien); }
+#australien { fill: var(--color-australien); }
+#europa { fill: var(--color-europa); }
+#nordamerika { fill: var(--color-nordamerika); }
+#suedamerika { fill: var(--color-suedamerika); }
+
+/* Hover-Effekte für Kontinente */
+#afrika:hover { fill: #FFCC80; }
+#antarktis:hover { fill: #B2EBF2; }
+#asien:hover { fill: #FFF176; }
+#australien:hover { fill: #FFCCBC; }
+#europa:hover { fill: #C8E6C9; }
+#nordamerika:hover { fill: #BBDEFB; }
+#suedamerika:hover { fill: #E1BEE7; }
+
+.continent-label {
+    font-family: 'Nunito', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    fill: var(--color-text);
+    text-anchor: middle;
+    pointer-events: none;
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+}
+
+/* ========================================
+   INSTRUCTION TEXT
+   ======================================== */
+
+.instruction {
+    margin-top: var(--spacing-lg);
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-text);
+    text-align: center;
+    background: rgba(255, 255, 255, 0.9);
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-soft);
+}
+
+/* ========================================
+   MODALS
+   ======================================== */
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(5px);
+}
+
+.modal.hidden {
+    display: none;
+}
+
+.modal-content {
+    background: var(--color-white);
+    padding: var(--spacing-xl);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-medium);
+    text-align: center;
+    max-width: 90%;
+    width: 400px;
+    animation: modalSlideIn 0.3s ease;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.modal-content h2 {
+    font-size: 2rem;
+    margin-bottom: var(--spacing-sm);
+    color: var(--color-text);
+}
+
+.modal-content p {
+    font-size: 1.25rem;
+    color: var(--color-text-light);
+    margin-bottom: var(--spacing-md);
+}
+
+.modal-content input {
+    width: 100%;
+    padding: var(--spacing-sm);
+    font-size: 1.25rem;
+    font-family: 'Nunito', sans-serif;
+    border: 2px solid var(--color-ocean-dark);
+    border-radius: var(--radius-sm);
+    margin-bottom: var(--spacing-md);
+    text-align: center;
+}
+
+.modal-content input:focus {
+    outline: none;
+    border-color: var(--color-success);
+    box-shadow: 0 0 0 3px rgba(102, 187, 106, 0.3);
+}
+
+/* ========================================
+   RANGLISTE
+   ======================================== */
+
+.ranking-content {
+    width: 450px;
+}
+
+.ranking-list {
+    max-height: 400px;
+    overflow-y: auto;
+    margin-bottom: var(--spacing-md);
+}
+
+.ranking-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-sm);
+    margin: var(--spacing-xs) 0;
+    background: linear-gradient(135deg, var(--color-ocean) 0%, var(--color-white) 100%);
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+}
+
+.ranking-item.gold {
+    background: linear-gradient(135deg, #FFD700 0%, #FFF8E1 100%);
+}
+
+.ranking-item.silver {
+    background: linear-gradient(135deg, #C0C0C0 0%, #F5F5F5 100%);
+}
+
+.ranking-item.bronze {
+    background: linear-gradient(135deg, #CD7F32 0%, #FFECB3 100%);
+}
+
+.ranking-position {
+    font-size: 1.5rem;
+    min-width: 50px;
+}
+
+.ranking-name {
+    flex: 1;
+    text-align: left;
+    padding-left: var(--spacing-sm);
+}
+
+.ranking-score {
+    font-size: 1.25rem;
+    color: var(--color-success);
+}
+
+.no-scores {
+    color: var(--color-text-light);
+    font-style: italic;
+    padding: var(--spacing-lg);
+}
+
+/* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
+
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+        padding: var(--spacing-sm);
+    }
+    
+    .title {
+        font-size: 1.25rem;
+    }
+    
+    .main-content {
+        padding: var(--spacing-sm);
+    }
+    
+    .continent-label {
+        font-size: 11px;
+    }
+    
+    .instruction {
+        font-size: 1rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    .title {
+        font-size: 2rem;
+    }
+    
+    .continent-label {
+        font-size: 16px;
+    }
+}
+
+/* ========================================
+   ANIMATIONEN
+   ======================================== */
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.02);
+    }
+}
+
+.continent:focus {
+    animation: pulse 1s infinite;
+}
+
+/* Wasser-Animation im Hintergrund */
+@keyframes wave {
+    0%, 100% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+body {
+    background-size: 200% 200%;
+    animation: wave 15s ease infinite;
+}

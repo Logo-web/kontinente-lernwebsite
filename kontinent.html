@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>Kontinent entdecken</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/kontinent.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header kontinent-header">
+        <a href="index.html" class="back-btn">← Zurück</a>
+        <h1 id="kontinent-titel" class="title">Kontinent</h1>
+        <div class="header-right">
+            <span id="player-display" class="player-name"></span>
+        </div>
+    </header>
+
+    <!-- Tab Navigation -->
+    <nav class="tab-nav">
+        <button class="tab-btn active" data-tab="entdecken">🔍 Entdecken</button>
+        <button class="tab-btn" data-tab="spielen">🎮 Spielen</button>
+    </nav>
+
+    <!-- Tab Content: Entdecken -->
+    <main id="entdecken-tab" class="tab-content active">
+        <div class="info-section" id="tiere-section">
+            <h2 class="section-title">🦁 Tiere</h2>
+            <div class="cards-container" id="tiere-cards"></div>
+        </div>
+
+        <div class="info-section" id="landschaften-section">
+            <h2 class="section-title">🏔️ Landschaften</h2>
+            <div class="cards-container" id="landschaften-cards"></div>
+        </div>
+
+        <div class="info-section" id="menschen-section">
+            <h2 class="section-title">👨‍👩‍👧‍👦 Menschen & Kultur</h2>
+            <div class="cards-container" id="menschen-cards"></div>
+        </div>
+
+        <div class="info-section" id="sehenswuerdigkeiten-section">
+            <h2 class="section-title">🏛️ Sehenswürdigkeiten</h2>
+            <div class="cards-container" id="sehenswuerdigkeiten-cards"></div>
+        </div>
+
+        <div class="info-section" id="klima-section">
+            <h2 class="section-title">☀️ Klima</h2>
+            <div class="cards-container" id="klima-cards"></div>
+        </div>
+    </main>
+
+    <!-- Tab Content: Spielen -->
+    <main id="spielen-tab" class="tab-content">
+        <div class="games-grid">
+            <a href="spiele.html?spiel=quiz" class="game-card">
+                <div class="game-icon">❓</div>
+                <h3>Quiz</h3>
+                <p>Teste dein Wissen!</p>
+            </a>
+
+            <a href="spiele.html?spiel=zuordnung" class="game-card">
+                <div class="game-icon">🎯</div>
+                <h3>Zuordnung</h3>
+                <p>Was gehört wohin?</p>
+            </a>
+
+            <a href="spiele.html?spiel=richtigfalsch" class="game-card">
+                <div class="game-icon">✅</div>
+                <h3>Richtig oder Falsch?</h3>
+                <p>Stimmt das?</p>
+            </a>
+
+            <a href="spiele.html?spiel=memory" class="game-card">
+                <div class="game-icon">🃏</div>
+                <h3>Memory</h3>
+                <p>Finde die Paare!</p>
+            </a>
+
+            <a href="spiele.html?spiel=weltkarte" class="game-card">
+                <div class="game-icon">🗺️</div>
+                <h3>Weltkarten-Klick</h3>
+                <p>Finde den Kontinent!</p>
+            </a>
+
+            <a href="spiele.html?spiel=puzzle" class="game-card">
+                <div class="game-icon">🧩</div>
+                <h3>Puzzle</h3>
+                <p>Setze die Welt zusammen!</p>
+            </a>
+        </div>
+    </main>
+
+    <!-- Info Card Modal -->
+    <div id="card-modal" class="modal hidden">
+        <div class="modal-content card-detail">
+            <button class="close-modal-btn">✕</button>
+            <div id="modal-image" class="modal-image"></div>
+            <h2 id="modal-title"></h2>
+            <p id="modal-text"></p>
+            <div id="modal-fakt" class="fakt-box"></div>
+        </div>
+    </div>
+
+    <script src="data/inhalte.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/kontinent.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>Spiele - Entdecke die Kontinente</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/spiele.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <a href="index.html" class="back-btn">← Zur Weltkarte</a>
+        <h1 id="spiel-titel" class="title">🎮 Spiele</h1>
+        <div class="header-right">
+            <span id="player-display" class="player-name"></span>
+            <span id="score-display" class="score-badge">0 ⭐</span>
+        </div>
+    </header>
+
+    <!-- Spiel-Auswahl -->
+    <div id="spiel-auswahl" class="spiel-container">
+        <h2>Wähle ein Spiel!</h2>
+        <div class="games-selection">
+            <button class="game-select-btn" data-spiel="quiz">
+                <span class="icon">❓</span>
+                <span class="name">Quiz</span>
+            </button>
+            <button class="game-select-btn" data-spiel="zuordnung">
+                <span class="icon">🎯</span>
+                <span class="name">Zuordnung</span>
+            </button>
+            <button class="game-select-btn" data-spiel="richtigfalsch">
+                <span class="icon">✅</span>
+                <span class="name">Richtig/Falsch</span>
+            </button>
+            <button class="game-select-btn" data-spiel="memory">
+                <span class="icon">🃏</span>
+                <span class="name">Memory</span>
+            </button>
+            <button class="game-select-btn" data-spiel="weltkarte">
+                <span class="icon">🗺️</span>
+                <span class="name">Weltkarten-Klick</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Quiz Spiel -->
+    <div id="quiz-spiel" class="spiel-container hidden">
+        <div class="progress-bar">
+            <div id="quiz-progress" class="progress-fill"></div>
+        </div>
+        <div class="spiel-content">
+            <div id="quiz-info-card" class="info-learn-card hidden">
+                <span class="learn-icon">💡</span>
+                <p id="quiz-info-text"></p>
+            </div>
+            <div id="quiz-question" class="question-card">
+                <p id="quiz-frage"></p>
+            </div>
+            <div id="quiz-options" class="options-container"></div>
+        </div>
+        <div id="quiz-feedback" class="feedback hidden"></div>
+    </div>
+
+    <!-- Richtig/Falsch Spiel -->
+    <div id="richtigfalsch-spiel" class="spiel-container hidden">
+        <div class="progress-bar">
+            <div id="rf-progress" class="progress-fill"></div>
+        </div>
+        <div class="spiel-content">
+            <div id="rf-statement" class="statement-card">
+                <p id="rf-aussage"></p>
+            </div>
+            <div class="rf-buttons">
+                <button id="rf-richtig" class="rf-btn richtig">
+                    <span>✅</span>
+                    <span>Richtig</span>
+                </button>
+                <button id="rf-falsch" class="rf-btn falsch">
+                    <span>❌</span>
+                    <span>Falsch</span>
+                </button>
+            </div>
+        </div>
+        <div id="rf-feedback" class="feedback hidden"></div>
+    </div>
+
+    <!-- Zuordnung Spiel -->
+    <div id="zuordnung-spiel" class="spiel-container hidden">
+        <div class="spiel-content zuordnung-layout">
+            <div class="zuordnung-item" id="zuordnung-item">
+                <div id="zuordnung-emoji" class="zuordnung-emoji"></div>
+                <p id="zuordnung-name"></p>
+            </div>
+            <p class="zuordnung-frage">Wo gehört das hin?</p>
+            <div id="zuordnung-options" class="zuordnung-options"></div>
+        </div>
+        <div id="zuordnung-feedback" class="feedback hidden"></div>
+    </div>
+
+    <!-- Memory Spiel -->
+    <div id="memory-spiel" class="spiel-container hidden">
+        <div class="memory-info">
+            <span id="memory-moves">Züge: 0</span>
+            <span id="memory-pairs">Paare: 0/8</span>
+        </div>
+        <div id="memory-grid" class="memory-grid"></div>
+    </div>
+
+    <!-- Weltkarten-Klick Spiel -->
+    <div id="weltkarte-spiel" class="spiel-container hidden">
+        <div class="progress-bar">
+            <div id="wk-progress" class="progress-fill"></div>
+        </div>
+        <div class="spiel-content">
+            <div class="wk-aufgabe">
+                <p>Tippe auf:</p>
+                <h2 id="wk-kontinent"></h2>
+            </div>
+            <div class="world-map-container small-map">
+                <svg id="wk-map" viewBox="0 0 1000 500" class="world-map clickable">
+                    <!-- Nordamerika -->
+                    <path id="wk-nordamerika" class="continent wk-continent" data-name="Nordamerika" d="
+                        M50,120 L70,100 L95,85 L130,75 L160,70 L190,65 L210,60 
+                        L230,55 L255,60 L275,70 L290,65 L305,75 L315,90 
+                        L320,110 L315,130 L305,145 L290,155 L275,165 L260,180 
+                        L245,195 L235,210 L230,225 L240,235 L255,240 L270,235 
+                        L280,225 L285,210 L295,200 L310,195 L320,205 L315,220 
+                        L305,235 L290,245 L275,255 L260,260 L245,258 L230,250 
+                        L215,245 L200,250 L185,260 L170,255 L155,245 L140,235 
+                        L125,225 L110,220 L95,225 L80,235 L70,250 L65,235 
+                        L60,220 L55,200 L50,180 L45,160 L45,140 Z" />
+                    <!-- Südamerika -->
+                    <path id="wk-suedamerika" class="continent wk-continent" data-name="Südamerika" d="
+                        M230,265 L245,262 L260,270 L275,280 L285,295 L290,315 
+                        L288,335 L282,355 L275,375 L265,395 L255,410 
+                        L245,425 L235,438 L228,448 L222,455 L218,460 
+                        L215,455 L212,445 L210,430 L205,415 L198,400 
+                        L192,385 L188,370 L186,355 L188,340 L192,325 
+                        L198,310 L205,295 L212,282 L220,272 Z" />
+                    <!-- Europa -->
+                    <path id="wk-europa" class="continent wk-continent" data-name="Europa" d="
+                        M430,75 L445,68 L460,65 L475,62 L490,65 L505,70 
+                        L520,78 L530,88 L535,100 L530,112 L522,122 
+                        L512,130 L500,138 L488,145 L475,150 L460,152 
+                        L445,148 L432,142 L422,132 L418,120 L420,108 
+                        L425,95 L430,85 Z
+                        M490,150 L498,155 L505,165 L502,175 L492,178 L485,170 L488,160 Z" />
+                    <!-- Afrika -->
+                    <path id="wk-afrika" class="continent wk-continent" data-name="Afrika" d="
+                        M440,168 L455,165 L475,162 L495,165 L515,170 
+                        L530,178 L542,190 L550,205 L555,225 L558,245 
+                        L558,265 L555,285 L550,305 L542,325 L530,345 
+                        L515,360 L498,372 L480,378 L462,375 L448,365 
+                        L438,350 L432,332 L430,312 L432,292 L435,272 
+                        L438,252 L440,232 L438,212 L435,195 L438,180 Z" />
+                    <!-- Asien -->
+                    <path id="wk-asien" class="continent wk-continent" data-name="Asien" d="
+                        M540,65 L565,55 L595,48 L630,45 L670,48 L710,55 
+                        L745,65 L775,78 L800,95 L818,115 L830,138 L838,162 
+                        L840,188 L835,215 L825,238 L810,258 L790,275 
+                        L768,288 L742,298 L715,305 L688,308 L660,305 
+                        L635,298 L612,288 L592,275 L575,260 L562,242 
+                        L552,222 L545,200 L542,178 L542,155 L545,132 
+                        L548,110 L545,88 Z
+                        M845,285 L860,278 L875,282 L885,295 L888,312 
+                        L882,328 L870,340 L855,345 L840,340 L832,325 
+                        L835,305 L842,292 Z" />
+                    <!-- Australien -->
+                    <path id="wk-australien" class="continent wk-continent" data-name="Australien" d="
+                        M755,320 L775,312 L798,308 L822,312 L845,322 
+                        L862,338 L872,358 L875,380 L870,402 L858,420 
+                        L840,432 L818,438 L795,435 L772,425 L755,410 
+                        L745,390 L742,368 L745,345 L750,330 Z
+                        M885,305 L895,310 L900,322 L895,335 L882,338 L875,325 L878,312 Z" />
+                    <!-- Antarktis -->
+                    <path id="wk-antarktis" class="continent wk-continent" data-name="Antarktis" d="
+                        M150,465 L200,458 L280,452 L360,448 L440,452 
+                        L520,455 L600,452 L680,455 L760,458 L840,465 
+                        L870,475 L850,488 L780,492 L700,495 L600,498 
+                        L500,498 L400,495 L300,492 L220,488 L160,480 
+                        L135,472 Z" />
+                </svg>
+            </div>
+        </div>
+        <div id="wk-feedback" class="feedback hidden"></div>
+    </div>
+
+    <!-- Ergebnis-Screen -->
+    <div id="ergebnis" class="spiel-container hidden">
+        <div class="ergebnis-content">
+            <div id="ergebnis-emoji" class="ergebnis-emoji">🎉</div>
+            <h2 id="ergebnis-titel">Super gemacht!</h2>
+            <p id="ergebnis-text"></p>
+            <div class="ergebnis-punkte">
+                <span id="ergebnis-score">+0</span> Punkte!
+            </div>
+            <div class="ergebnis-buttons">
+                <button id="nochmal-btn" class="btn-primary">Nochmal spielen 🔄</button>
+                <button id="zurueck-btn" class="btn-secondary">Anderes Spiel</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="data/inhalte.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/spiele.js"></script>
+</body>
+
+</html>

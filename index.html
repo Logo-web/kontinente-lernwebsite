@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <title>Entdecke die Kontinente!</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .world-map-object {
+            width: 100%;
+            height: auto;
+            min-height: 400px;
+            border-radius: 16px;
+            display: block;
+            border: 3px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            overflow: visible;
+        }
+
+        .kontinent-tooltip {
+            position: fixed;
+            background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+            color: white;
+            padding: 10px 18px;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            pointer-events: none;
+            z-index: 1000;
+            display: none;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .kontinent-tooltip::before {
+            content: "🌍 ";
+        }
+
+        .legende {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 12px;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 14px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .legende-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            padding: 6px 12px;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            color: #374151;
+        }
+
+        .legende-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .legende-farbe {
+            width: 18px;
+            height: 18px;
+            border-radius: 5px;
+            border: 2px solid rgba(0, 0, 0, 0.15);
+        }
+
+        .loading-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(59, 130, 246, 0.2);
+            border-top-color: #3b82f6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .map-container-wrapper {
+            position: relative;
+            background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+            border-radius: 20px;
+            padding: 8px;
+            overflow: visible;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Namenseingabe Modal -->
+    <div id="name-modal" class="modal">
+        <div class="modal-content">
+            <h2>👋 Hallo!</h2>
+            <p>Wie heißt du?</p>
+            <input type="text" id="player-name" placeholder="Dein Vorname" maxlength="20" autocomplete="off">
+            <button id="start-btn" class="btn-primary">Los geht's! 🚀</button>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <h1 class="title">🌍 Entdecke die Kontinente!</h1>
+        <div class="header-right">
+            <span id="player-display" class="player-name"></span>
+            <button id="ranking-btn" class="btn-ranking">🏆 Rangliste</button>
+        </div>
+    </header>
+
+    <!-- Hauptbereich: Weltkarte -->
+    <main class="main-content">
+        <div class="world-map-container map-container-wrapper">
+            <div id="loading" class="loading-overlay">
+                <div class="loading-spinner"></div>
+                <span style="color: #3b82f6; font-weight: 600;">Weltkarte wird geladen...</span>
+            </div>
+            <object id="world-map" data="data/mapsvg-world.svg" type="image/svg+xml" class="world-map-object"
+                style="opacity: 0;">
+                Weltkarte wird geladen...
+            </object>
+        </div>
+
+        <!-- Legende -->
+        <div class="legende">
+            <div class="legende-item" data-kontinent="afrika">
+                <div class="legende-farbe" style="background: linear-gradient(135deg, #fb923c 0%, #f97316 100%);"></div>
+                <span>Afrika</span>
+            </div>
+            <div class="legende-item" data-kontinent="europa">
+                <div class="legende-farbe" style="background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);"></div>
+                <span>Europa</span>
+            </div>
+            <div class="legende-item" data-kontinent="asien">
+                <div class="legende-farbe" style="background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);"></div>
+                <span>Asien</span>
+            </div>
+            <div class="legende-item" data-kontinent="nordamerika">
+                <div class="legende-farbe" style="background: linear-gradient(135deg, #c084fc 0%, #a855f7 100%);"></div>
+                <span>Nordamerika</span>
+            </div>
+            <div class="legende-item" data-kontinent="suedamerika">
+                <div class="legende-farbe" style="background: linear-gradient(135deg, #fde047 0%, #facc15 100%);"></div>
+                <span>Südamerika</span>
+            </div>
+            <div class="legende-item" data-kontinent="australien">
+                <div class="legende-farbe" style="background: linear-gradient(135deg, #f472b6 0%, #ec4899 100%);"></div>
+                <span>Australien</span>
+            </div>
+            <div class="legende-item" data-kontinent="antarktis">
+                <div class="legende-farbe" style="background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%);"></div>
+                <span>Antarktis</span>
+            </div>
+        </div>
+
+        <p class="instruction">👆 Klicke auf ein Land oder wähle einen Kontinent aus der Legende!</p>
+
+        <!-- Tooltip -->
+        <div id="kontinent-tooltip" class="kontinent-tooltip"></div>
+    </main>
+
+    <!-- Ranglisten-Modal -->
+    <div id="ranking-modal" class="modal hidden">
+        <div class="modal-content ranking-content">
+            <h2>🏆 Rangliste</h2>
+            <div id="ranking-list" class="ranking-list">
+                <p class="no-scores">Noch keine Punkte gesammelt!</p>
+            </div>
+            <button id="close-ranking" class="btn-secondary">Schließen</button>
+        </div>
+    </div>
+
+    <script src="js/weltkarte.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        // Warte bis SVG geladen ist
+        const mapObject = document.getElementById('world-map');
+        const loading = document.getElementById('loading');
+        const tooltip = document.getElementById('kontinent-tooltip');
+
+        mapObject.addEventListener('load', function () {
+            try {
+                const svgDoc = this.contentDocument;
+                if (!svgDoc) {
+                    console.log('SVG nicht zugänglich (CORS)');
+                    fallbackToSimpleMap();
+                    return;
+                }
+
+                const svg = svgDoc.querySelector('svg');
+                if (!svg) {
+                    fallbackToSimpleMap();
+                    return;
+                }
+
+                // Hintergrund setzen
+                svg.style.background = 'linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%)';
+
+                // Alle Pfade durchgehen und nach Kontinenten einfärben
+                const paths = svg.querySelectorAll('path');
+                paths.forEach(path => {
+                    const landCode = path.id;
+                    const kontinent = findeKontinent(landCode);
+
+                    if (kontinent && KONTINENT_FARBEN[kontinent]) {
+                        const farben = KONTINENT_FARBEN[kontinent];
+
+                        path.style.fill = farben.fill;
+                        path.style.stroke = '#ffffff';
+                        path.style.strokeWidth = '0.5';
+                        path.style.transition = 'all 0.2s ease';
+                        path.style.cursor = 'pointer';
+
+                        path.addEventListener('mouseenter', function (e) {
+                            this.style.fill = farben.hover;
+                            this.style.filter = 'brightness(1.1)';
+                            this.style.strokeWidth = '1';
+
+                            tooltip.textContent = kontinent;
+                            tooltip.style.display = 'block';
+                        });
+
+                        path.addEventListener('mousemove', function (e) {
+                            tooltip.style.left = (e.clientX + 15) + 'px';
+                            tooltip.style.top = (e.clientY + 15) + 'px';
+                        });
+
+                        path.addEventListener('mouseleave', function () {
+                            this.style.fill = farben.fill;
+                            this.style.filter = '';
+                            this.style.strokeWidth = '0.5';
+                            tooltip.style.display = 'none';
+                        });
+
+                        path.addEventListener('click', function () {
+                            const kontId = kontinent.toLowerCase()
+                                .replace('ü', 'ue')
+                                .replace('ö', 'oe')
+                                .replace('ä', 'ae');
+                            window.location.href = 'kontinent.html?id=' + kontId;
+                        });
+                    } else {
+                        // Unbekannte Länder hellgrau färben
+                        path.style.fill = '#e5e7eb';
+                        path.style.stroke = '#ffffff';
+                        path.style.strokeWidth = '0.3';
+                    }
+                });
+
+                // Karte anzeigen
+                loading.style.display = 'none';
+                mapObject.style.opacity = '1';
+                mapObject.style.transition = 'opacity 0.5s ease';
+
+            } catch (e) {
+                console.log('Fehler beim SVG-Zugriff:', e);
+                fallbackToSimpleMap();
+            }
+        });
+
+        mapObject.addEventListener('error', function () {
+            fallbackToSimpleMap();
+        });
+
+        // Fallback für lokale file:// Nutzung
+        function fallbackToSimpleMap() {
+            loading.innerHTML = '<p style="color: #64748b;">Für die interaktive Karte bitte über einen Webserver öffnen.<br>Nutze die Legende zum Navigieren!</p>';
+        }
+
+        // Legende Klick-Handler
+        document.querySelectorAll('.legende-item').forEach(item => {
+            item.addEventListener('click', function () {
+                const kontId = this.dataset.kontinent;
+                window.location.href = 'kontinent.html?id=' + kontId;
+            });
+        });
+    </script>
+</body>
+
+</html>
