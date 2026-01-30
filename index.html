@@ -15,12 +15,12 @@
         .world-map-object {
             width: 100%;
             height: auto;
-            min-height: 400px;
+            max-width: 100%;
             border-radius: 16px;
             display: block;
             border: 3px solid rgba(255, 255, 255, 0.5);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            overflow: visible;
+            object-fit: contain;
         }
 
         .kontinent-tooltip {
@@ -110,13 +110,14 @@
             background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
             border-radius: 20px;
             padding: 8px;
-            overflow: visible;
+            overflow: hidden;
+            width: 100%;
+            max-width: 100%;
         }
 
         /* Mobile Responsive Styles */
         @media (max-width: 600px) {
             .world-map-object {
-                min-height: 250px;
                 border-radius: 12px;
                 border-width: 2px;
             }
@@ -160,7 +161,7 @@
 
         @media (max-width: 400px) {
             .world-map-object {
-                min-height: 200px;
+                border-width: 1px;
             }
 
             .legende {
@@ -200,7 +201,7 @@
         /* Landscape on phones */
         @media (max-height: 500px) and (orientation: landscape) {
             .world-map-object {
-                min-height: 180px;
+                max-height: 60vh;
             }
 
             .legende {

@@ -1,0 +1,19 @@
+{
+  "hooks": {
+    "preToolUse": {
+      "Bash(git add antigravity*)": {
+        "command": "echo 'Blocked: antigravity-awesome-skills-main should not be committed' && exit 1",
+        "blocking": true
+      }
+    },
+    "postToolUse": {
+      "Edit(*.html)|Write(*.html)": {
+        "command": "echo '✓ HTML file updated. Consider testing in browser.'"
+      },
+      "Edit(*.js)|Write(*.js)": {
+        "command": "echo '✓ JavaScript file updated.'"
+      }
+    }
+  },
+  "enabledPlugins": {}
+}
