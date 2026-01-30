@@ -4,28 +4,44 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Git Workflow & Deployment
 
-**CRITICAL: After every change, always commit and push to GitHub, then deploy.**
+**CRITICAL: After every change, always commit and push to GitHub.**
 
 ### Standard Workflow After Making Changes
 
-1. **Stage and commit changes:**
+1. **Check status:**
    ```bash
-   git add .
-   git commit -m "Descriptive message about the changes"
+   git status
    ```
 
-2. **Push to GitHub:**
+2. **Stage and commit changes:**
+   ```bash
+   git add .
+   git commit -m "$(cat <<'EOF'
+   Kurze Beschreibung der Änderung
+
+   - Details über die Änderungen
+   - Weitere Details falls nötig
+
+   Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>
+   EOF
+   )"
+   ```
+
+3. **Push to GitHub:**
    ```bash
    git push origin master
    ```
 
-3. **Deploy the changes** (if applicable - exact deployment command depends on hosting setup)
+4. **Deployment:** GitHub Pages deployed automatisch nach dem Push auf den `master` Branch. Die Website ist dann unter der GitHub Pages URL verfügbar.
 
 **Important**:
 - Never skip the commit and push steps
 - Write clear, descriptive commit messages in German
 - Always include co-authorship: `Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>`
 - Check `git status` before and after to verify all changes are tracked
+- GitHub Pages deployment happens automatically (takes 1-2 minutes)
+
+**GitHub Pages URL:** Check repository settings → Pages to find the deployed URL (typically: `https://logo-web.github.io/kontinente-lernwebsite/`)
 
 ## Project Overview
 
