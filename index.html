@@ -14,13 +14,14 @@
     <style>
         .world-map-object {
             width: 100%;
-            height: auto;
+            height: 500px;
             max-width: 100%;
             border-radius: 16px;
             display: block;
             border: 3px solid rgba(255, 255, 255, 0.5);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
             object-fit: contain;
+            object-position: center;
         }
 
         .kontinent-tooltip {
@@ -113,11 +114,15 @@
             overflow: hidden;
             width: 100%;
             max-width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         /* Mobile Responsive Styles */
         @media (max-width: 600px) {
             .world-map-object {
+                height: 300px;
                 border-radius: 12px;
                 border-width: 2px;
             }
@@ -161,6 +166,7 @@
 
         @media (max-width: 400px) {
             .world-map-object {
+                height: 250px;
                 border-width: 1px;
             }
 
@@ -201,7 +207,7 @@
         /* Landscape on phones */
         @media (max-height: 500px) and (orientation: landscape) {
             .world-map-object {
-                max-height: 60vh;
+                height: 250px;
             }
 
             .legende {
