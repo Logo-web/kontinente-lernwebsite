@@ -1,16 +1,2 @@
-# Dependencies
-node_modules/
-
-# Skills (not part of the project)
-antigravity-awesome-skills-main/
-
-# IDE
-.vscode/
-.idea/
-
-# OS
-.DS_Store
-Thumbs.db
-
-# Logs
-*.log
+# Ignore the invalid file 'nul' which cannot be committed on Windows
+nul
