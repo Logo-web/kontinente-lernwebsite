@@ -155,7 +155,7 @@ KONTINENT_FARBEN = {
 ```
 
 **Must be kept in sync** with:
-- Inline CSS in spiele.html (Weltkarten-Klick game)
+- JavaScript in spiele.js (Weltkarten-Klick game - dynamically applies these colors to all country paths)
 - Legende colors in index.html
 - SVG path styling in inline scripts
 
@@ -181,7 +181,43 @@ Each game follows:
 - `richtigfalsch` - True/False statements with explanations
 - `zuordnung` - Match items (animals/landmarks) to continents
 - `memory` - Classic memory/pairs game with emojis
-- `weltkarte` - Click the correct continent on embedded SVG map
+- `weltkarte` - Click the correct continent on interactive world map
+
+#### Weltkarten-Klick Game Details
+
+The world map game (`weltkarte`) uses the real, detailed `mapsvg-world.svg` map with 200+ country paths:
+
+**Architecture**:
+```javascript
+initWeltkarte() → setupWkMap(callback) → showWkQuestion()
+                      ↓
+              Interval polling (100ms)
+                      ↓
+              Wait for SVG contentDocument
+                      ↓
+              initSvgPaths() → Colors all countries
+                      ↓
+              Callback → Show first question
+```
+
+**Key Implementation Details**:
+- **SVG Loading**: Uses `<object>` tag to load `data/mapsvg-world.svg`
+- **Polling System**: Robust interval polling checks every 100ms (max 100 attempts = 10s) for SVG `contentDocument`
+- **Country Mapping**: Each country path (e.g., `id="DE"`) is mapped to its continent via `findeKontinent()` from `weltkarte.js`
+- **Dynamic Coloring**: All 200+ country paths get continent colors from `KONTINENT_FARBEN`
+- **Click Handling**:
+  - Gets country code from clicked path's `id`
+  - Maps to continent via `findeKontinent(countryCode)`
+  - Normalizes umlauts (ü→ue) for comparison
+  - Shows green (correct) or red (wrong) feedback
+
+**Critical Dependencies**:
+- Requires `js/weltkarte.js` to be loaded (for `findeKontinent()` and `KONTINENT_FARBEN`)
+- SVG must be served via HTTP (not `file://`) due to CORS
+
+**Browser Caching**:
+- Users may need hard reload (Ctrl+Shift+R) after updates
+- Server should use cache-busting or `Cache-Control: no-cache` for JS files during development
 
 ### URL Parameter System
 
