@@ -6,12 +6,12 @@
 :root {
     /* Kontinente Farben (Pastelltöne) */
     --color-afrika: #FFB347;
-    --color-antarktis: #E0F7FA;
-    --color-asien: #FFF59D;
-    --color-australien: #FFAB91;
-    --color-europa: #A5D6A7;
-    --color-nordamerika: #90CAF9;
-    --color-suedamerika: #CE93D8;
+    --color-antarktis: #E0E0E0;
+    --color-asien: #90EE90;
+    --color-australien: #FFB6C1;
+    --color-europa: #87CEEB;
+    --color-nordamerika: #DDA0DD;
+    --color-suedamerika: #F0E68C;
 
     /* Allgemeine Farben */
     --color-ocean: #B3E5FC;

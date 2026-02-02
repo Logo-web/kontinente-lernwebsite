@@ -68,7 +68,7 @@ const KONTINENTE_DATA = {
         },
         "europa": {
             "name": "Europa",
-            "farbe": "#A5D6A7",
+            "farbe": "#87CEEB",
             "emoji": "🏰",
             "beschreibung": "Europa ist unser Kontinent! Hier leben wir.",
             "tiere": [
@@ -122,7 +122,7 @@ const KONTINENTE_DATA = {
         },
         "asien": {
             "name": "Asien",
-            "farbe": "#FFF59D",
+            "farbe": "#90EE90",
             "emoji": "🐼",
             "beschreibung": "Asien ist der größte Kontinent der Welt!",
             "tiere": [
@@ -182,7 +182,7 @@ const KONTINENTE_DATA = {
         },
         "nordamerika": {
             "name": "Nordamerika",
-            "farbe": "#90CAF9",
+            "farbe": "#DDA0DD",
             "emoji": "🗽",
             "beschreibung": "In Nordamerika liegen die USA, Kanada und Mexiko.",
             "tiere": [
@@ -242,7 +242,7 @@ const KONTINENTE_DATA = {
         },
         "suedamerika": {
             "name": "Südamerika",
-            "farbe": "#CE93D8",
+            "farbe": "#F0E68C",
             "emoji": "🦜",
             "beschreibung": "Südamerika hat den größten Regenwald der Welt!",
             "tiere": [
@@ -302,7 +302,7 @@ const KONTINENTE_DATA = {
         },
         "australien": {
             "name": "Australien",
-            "farbe": "#FFAB91",
+            "farbe": "#FFB6C1",
             "emoji": "🦘",
             "beschreibung": "Australien ist ein Kontinent und ein Land zugleich!",
             "tiere": [
@@ -362,7 +362,7 @@ const KONTINENTE_DATA = {
         },
         "antarktis": {
             "name": "Antarktis",
-            "farbe": "#E0F7FA",
+            "farbe": "#E0E0E0",
             "emoji": "🐧",
             "beschreibung": "Die Antarktis ist der kälteste Kontinent der Welt!",
             "tiere": [
