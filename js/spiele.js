@@ -510,11 +510,13 @@ function initWeltkarte() {
     totalQuestions = wkKontinente.length;
     currentQuestion = 0;
 
-    setupWkMap();
-    showWkQuestion();
+    // Setup Karte und zeige erste Frage erst danach
+    setupWkMap(() => {
+        showWkQuestion();
+    });
 }
 
-function setupWkMap() {
+function setupWkMap(callback) {
     const mapObject = document.getElementById('wk-map-object');
 
     if (!mapObject) {
@@ -522,8 +524,7 @@ function setupWkMap() {
         return;
     }
 
-    // Warte auf SVG-Laden
-    mapObject.addEventListener('load', function() {
+    function initSvgPaths() {
         const svgDoc = mapObject.contentDocument;
         if (!svgDoc) {
             console.error('SVG nicht geladen');
@@ -552,7 +553,19 @@ function setupWkMap() {
                 path.style.cursor = 'pointer';
             }
         });
-    });
+
+        // Setup abgeschlossen - Callback aufrufen
+        if (callback) callback();
+    }
+
+    // Prüfe ob SVG bereits geladen ist
+    if (mapObject.contentDocument) {
+        // Bereits geladen
+        initSvgPaths();
+    } else {
+        // Warte auf Laden
+        mapObject.addEventListener('load', initSvgPaths);
+    }
 }
 
 function showWkQuestion() {
