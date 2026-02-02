@@ -15,13 +15,30 @@ let totalQuestions = 0;
 
 // Emoji-Map für Bilder
 const emojiMap = {
+    // Tiere
     'loewe': '🦁', 'elefant': '🐘', 'giraffe': '🦒', 'braunbaer': '🐻',
     'wolf': '🐺', 'panda': '🐼', 'tiger': '🐯', 'bison': '🦬',
     'weisskopfseeadler': '🦅', 'grizzly': '🐻', 'jaguar': '🐆',
     'papagei': '🦜', 'faultier': '🦥', 'kaenguru': '🦘', 'koala': '🐨',
     'schnabeltier': '🦆', 'pinguin': '🐧', 'robbe': '🦭', 'albatros': '🦅',
+    'asien_elefant': '🐘',
+
+    // Landschaften
+    'sahara': '🏜️', 'savanne': '🌾', 'alpen': '🏔️', 'nordsee': '🌊',
+    'himalaya': '🗻', 'reisfelder': '🌾', 'grand_canyon': '🏜️', 'niagara': '💧',
+    'amazonas': '🌳', 'anden': '⛰️', 'outback': '🏜️', 'great_barrier_reef': '🐠',
+    'eiswueste': '❄️', 'eisberge': '🧊',
+
+    // Sehenswürdigkeiten
     'pyramiden': '🏛️', 'eiffelturm': '🗼', 'freiheitsstatue': '🗽',
-    'chinesische_mauer': '🧱', 'machu_picchu': '🏔️', 'opera_house': '🎭'
+    'chinesische_mauer': '🧱', 'machu_picchu': '🏛️', 'opera_house': '🎭', 'suedpol': '🧭',
+
+    // Menschen & Kulturen
+    'maasai': '👨‍👩‍👧‍👦', 'europa_kulturen': '🇪🇺', 'asien_kulturen': '🌏',
+    'indigene': '👨‍👩‍👧‍👦', 'suedamerika_kulturen': '💃', 'aborigines': '🎨', 'forscher': '🔬',
+
+    // Klima
+    'klima': '☀️'
 };
 
 const kontinentEmojis = {
@@ -50,11 +67,22 @@ async function initSpiele() {
         // Fallback für Server-Betrieb
         try {
             const response = await fetch('data/inhalte.json');
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
             gameData = await response.json();
         } catch (error) {
-            console.error('Fehler beim Laden:', error);
+            console.error('Fehler beim Laden der Spieldaten:', error);
+            showDataError();
             return;
         }
+    }
+
+    // Prüfe ob Daten gültig sind
+    if (!gameData || !gameData.quiz || !gameData.kontinente) {
+        console.error('Ungültige Spieldaten geladen');
+        showDataError();
+        return;
     }
 
     // URL-Parameter prüfen
@@ -71,7 +99,7 @@ async function initSpiele() {
 }
 
 function updatePlayerDisplay() {
-    const saved = sessionStorage.getItem('currentPlayer');
+    const saved = localStorage.getItem('kontinente_currentPlayer');
     if (saved) {
         const player = JSON.parse(saved);
         const displayEl = document.getElementById('player-display');
@@ -501,6 +529,8 @@ function handleMemoryClick(cardEl) {
 // ========================================
 
 let wkKontinente = [];
+let wkMapInitialized = false;
+let wkClickHandler = null;
 
 function initWeltkarte() {
     document.getElementById('weltkarte-spiel').classList.remove('hidden');
@@ -524,12 +554,7 @@ function setupWkMap(callback) {
         return;
     }
 
-    let initialized = false;
-
     function initSvgPaths() {
-        // Verhindere doppelte Initialisierung
-        if (initialized) return;
-
         const svgDoc = mapObject.contentDocument;
         if (!svgDoc) return;
 
@@ -537,7 +562,10 @@ function setupWkMap(callback) {
         if (paths.length === 0) return;
 
         // Flag setzen - SVG ist bereit
-        initialized = true;
+        wkMapInitialized = true;
+
+        // Erstelle named handler für mögliche spätere Entfernung
+        wkClickHandler = wkClickHandler || ((e) => handleWkClick(e.target));
 
         paths.forEach(path => {
             const countryCode = path.id;
@@ -552,8 +580,9 @@ function setupWkMap(callback) {
                 // CSS-Klasse für Hover-Effekte
                 path.classList.add('wk-country');
 
-                // Click-Handler
-                path.addEventListener('click', (e) => handleWkClick(e.target));
+                // Click-Handler nur hinzufügen wenn nicht bereits vorhanden
+                path.removeEventListener('click', wkClickHandler);
+                path.addEventListener('click', wkClickHandler);
 
                 // Cursor
                 path.style.cursor = 'pointer';
@@ -663,6 +692,24 @@ function shuffle(array) {
         [arr[i], arr[j]] = [arr[j], arr[i]];
     }
     return arr;
+}
+
+// Zeigt Fehlermeldung wenn Daten nicht geladen werden können
+function showDataError() {
+    const spielAuswahl = document.getElementById('spiel-auswahl');
+    if (spielAuswahl) {
+        spielAuswahl.innerHTML = `
+            <div style="text-align: center; padding: 2rem; color: #ef4444;">
+                <p style="font-size: 3rem; margin-bottom: 1rem;">😕</p>
+                <h2>Oops! Etwas ist schiefgelaufen.</h2>
+                <p>Die Spieldaten konnten nicht geladen werden.</p>
+                <p>Bitte lade die Seite neu oder versuche es später noch einmal.</p>
+                <button onclick="location.reload()" class="btn-primary" style="margin-top: 1rem;">
+                    Seite neu laden 🔄
+                </button>
+            </div>
+        `;
+    }
 }
 
 // ========================================

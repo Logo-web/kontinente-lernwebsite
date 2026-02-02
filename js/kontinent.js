@@ -101,11 +101,22 @@ async function initKontinentPage() {
         // Fallback für Server-Betrieb
         try {
             const response = await fetch('data/inhalte.json');
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
             kontinenteData = await response.json();
         } catch (error) {
-            console.error('Fehler beim Laden der Daten:', error);
+            console.error('Fehler beim Laden der Kontinent-Daten:', error);
+            showDataError();
             return;
         }
+    }
+
+    // Prüfe ob Daten gültig sind
+    if (!kontinenteData || !kontinenteData.kontinente) {
+        console.error('Ungültige Kontinent-Daten geladen');
+        showDataError();
+        return;
     }
 
     currentKontinent = kontinenteData.kontinente[kontinentId];
@@ -122,7 +133,7 @@ async function initKontinentPage() {
 }
 
 function updatePlayerDisplay() {
-    const savedPlayer = sessionStorage.getItem('currentPlayer');
+    const savedPlayer = localStorage.getItem('kontinente_currentPlayer');
     if (savedPlayer) {
         const player = JSON.parse(savedPlayer);
         const displayEl = document.getElementById('player-display');
@@ -300,5 +311,20 @@ function closeCardModal() {
 // ========================================
 // INIT
 // ========================================
+
+function showDataError() {
+    const main = document.querySelector('main') || document.body;
+    main.innerHTML = `
+        <div style="text-align: center; padding: 2rem; color: #ef4444;">
+            <p style="font-size: 3rem; margin-bottom: 1rem;">😕</p>
+            <h2>Oops! Etwas ist schiefgelaufen.</h2>
+            <p>Die Kontinent-Daten konnten nicht geladen werden.</p>
+            <p>Bitte lade die Seite neu oder versuche es später noch einmal.</p>
+            <a href="index.html" class="btn-primary" style="margin-top: 1rem; display: inline-block; text-decoration: none;">
+                Zurück zur Startseite 🏠
+            </a>
+        </div>
+    `;
+}
 
 document.addEventListener('DOMContentLoaded', initKontinentPage);
