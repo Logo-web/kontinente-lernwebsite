@@ -532,13 +532,16 @@ function setupWkMap(callback) {
 
         const svgDoc = mapObject.contentDocument;
         if (!svgDoc) {
-            console.error('SVG nicht geladen');
-            return;
+            return; // Kein Error-Log, da das normal beim Polling ist
         }
 
-        initialized = true;
-
         const paths = svgDoc.querySelectorAll('path[id]');
+        if (paths.length === 0) {
+            return; // Keine Pfade gefunden
+        }
+
+        // Jetzt erst Flag setzen, da wir wissen dass SVG bereit ist
+        initialized = true;
 
         paths.forEach(path => {
             const countryCode = path.id;
