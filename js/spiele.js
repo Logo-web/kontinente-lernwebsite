@@ -524,12 +524,19 @@ function setupWkMap(callback) {
         return;
     }
 
+    let initialized = false;
+
     function initSvgPaths() {
+        // Verhindere doppelte Initialisierung
+        if (initialized) return;
+
         const svgDoc = mapObject.contentDocument;
         if (!svgDoc) {
             console.error('SVG nicht geladen');
             return;
         }
+
+        initialized = true;
 
         const paths = svgDoc.querySelectorAll('path[id]');
 
@@ -558,14 +565,22 @@ function setupWkMap(callback) {
         if (callback) callback();
     }
 
-    // Prüfe ob SVG bereits geladen ist
-    if (mapObject.contentDocument) {
-        // Bereits geladen
-        initSvgPaths();
-    } else {
-        // Warte auf Laden
-        mapObject.addEventListener('load', initSvgPaths);
+    // Funktion um auf SVG-Laden zu warten mit Polling
+    function waitForSvg() {
+        if (mapObject.contentDocument && !initialized) {
+            // SVG ist bereit
+            initSvgPaths();
+        } else if (!initialized) {
+            // Noch nicht bereit - nochmal versuchen
+            setTimeout(waitForSvg, 50);
+        }
     }
+
+    // Starte Polling
+    waitForSvg();
+
+    // Zusätzlich: Load Event als Backup
+    mapObject.addEventListener('load', initSvgPaths);
 }
 
 function showWkQuestion() {
