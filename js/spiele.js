@@ -53,6 +53,10 @@ const kontinentNamen = {
     'australien': 'Australien', 'antarktis': 'Antarktis'
 };
 
+// Nur für Weltkarten-Spiel: Kontinente, die tatsächlich auf der SVG-Karte existieren
+// Antarktis ist nicht in mapsvg-world.svg vorhanden
+const weltkarteKontinente = ['afrika', 'europa', 'asien', 'nordamerika', 'suedamerika', 'australien'];
+
 // ========================================
 // INITIALISIERUNG
 // ========================================
@@ -536,13 +540,14 @@ function initWeltkarte() {
     document.getElementById('weltkarte-spiel').classList.remove('hidden');
     document.getElementById('spiel-titel').textContent = '🗺️ Weltkarten-Klick';
 
-    wkKontinente = shuffle(Object.keys(kontinentNamen)).slice(0, 6);
+    // Nur Kontinente verwenden, die auf der Karte existieren (ohne Antarktis)
+    wkKontinente = shuffle([...weltkarteKontinente]);
     totalQuestions = wkKontinente.length;
     currentQuestion = 0;
-    
+
     // Reset Flag für neue Spielrunde
     wkMapInitialized = false;
-    
+
     // Setup Karte und zeige erste Frage erst danach
     setupWkMap(() => {
         showWkQuestion();
@@ -737,6 +742,9 @@ function handleWkClick(element) {
     const clickedNormalized = normalizeKontinent(clickedKontinent || '');
     const correctNormalized = normalizeKontinent(correctKontinent || '');
 
+    // Feedback-Element für Text-Anzeige
+    const wkFeedback = document.getElementById('wk-feedback');
+
     if (clickedNormalized === correctNormalized) {
         element.classList.add('correct');
         // Setze Farbe direkt für sofortiges Feedback
@@ -744,15 +752,35 @@ function handleWkClick(element) {
         element.setAttribute('stroke', '#16a34a');
         currentScore += 10;
 
+        // Deutliches Text-Feedback
+        if (wkFeedback) {
+            wkFeedback.textContent = `✅ Richtig! Das ist ${kontinentNamen[correctKontinent]}! +10 Punkte`;
+            wkFeedback.className = 'feedback correct';
+            wkFeedback.classList.remove('hidden');
+        }
+
+        // Zeige kurz eine Erfolgsnachricht über dem Land
+        showClickFeedback(element, '🎉', '#22c55e');
+
         setTimeout(() => {
             currentQuestion++;
             showWkQuestion();
-        }, 800);
+        }, 1200);
     } else {
         element.classList.add('wrong');
         // Setze Farbe direkt für sofortiges Feedback
         element.setAttribute('fill', '#ef4444');
         element.setAttribute('stroke', '#dc2626');
+
+        // Deutliches Text-Feedback mit Hinweis
+        if (wkFeedback) {
+            wkFeedback.textContent = `❌ Das ist ${kontinentNamen[clickedNormalized] || 'unbekannt'}, nicht ${kontinentNamen[correctKontinent]}!`;
+            wkFeedback.className = 'feedback wrong';
+            wkFeedback.classList.remove('hidden');
+        }
+
+        // Zeige kurz eine Fehlernachricht über dem Land
+        showClickFeedback(element, '❌', '#ef4444');
 
         setTimeout(() => {
             element.classList.remove('wrong');
@@ -763,10 +791,48 @@ function handleWkClick(element) {
                 element.setAttribute('fill', originalFill);
                 element.setAttribute('stroke', originalStroke);
             }
-        }, 500);
+            // Feedback verstecken
+            if (wkFeedback) {
+                wkFeedback.classList.add('hidden');
+            }
+        }, 1500);
     }
 
     document.getElementById('score-display').textContent = `${PlayerManager.currentPlayer.score + currentScore} ⭐`;
+}
+
+// Hilfsfunktion für visuelles Feedback über dem geklickten Land
+function showClickFeedback(element, emoji, color) {
+    const svg = element.ownerSVGElement;
+    if (!svg) return;
+
+    // Erstelle ein Text-Element für das Feedback
+    const feedbackText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+
+    // Berechne die Position des Landes
+    const bbox = element.getBBox();
+    const centerX = bbox.x + bbox.width / 2;
+    const centerY = bbox.y - 10;
+
+    feedbackText.setAttribute('x', centerX);
+    feedbackText.setAttribute('y', centerY);
+    feedbackText.setAttribute('text-anchor', 'middle');
+    feedbackText.setAttribute('font-size', '24');
+    feedbackText.setAttribute('fill', color);
+    feedbackText.setAttribute('font-weight', 'bold');
+    feedbackText.textContent = emoji;
+
+    // Füge Animation hinzu
+    feedbackText.style.animation = 'feedback-popup 0.8s ease-out forwards';
+
+    svg.appendChild(feedbackText);
+
+    // Entferne nach der Animation
+    setTimeout(() => {
+        if (feedbackText.parentNode) {
+            feedbackText.parentNode.removeChild(feedbackText);
+        }
+    }, 800);
 }
 
 // ========================================

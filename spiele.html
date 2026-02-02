@@ -112,6 +112,61 @@
             stroke: #dc2626 !important;
             stroke-width: 2;
         }
+
+        /* Animation für Klick-Feedback Emoji */
+        @keyframes feedback-popup {
+            0% {
+                opacity: 0;
+                transform: translateY(10px) scale(0.5);
+            }
+            20% {
+                opacity: 1;
+                transform: translateY(-5px) scale(1.2);
+            }
+            50% {
+                opacity: 1;
+                transform: translateY(-15px) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-25px) scale(0.8);
+            }
+        }
+
+        /* Feedback-Box hervorheben */
+        #wk-feedback {
+            font-size: 1.2rem;
+            font-weight: bold;
+            padding: 1rem;
+            margin: 1rem auto;
+            max-width: 90%;
+            border-radius: 12px;
+            text-align: center;
+            animation: feedback-slide-in 0.3s ease-out;
+        }
+
+        @keyframes feedback-slide-in {
+            0% {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        #wk-feedback.correct {
+            background-color: #dcfce7;
+            border: 2px solid #22c55e;
+            color: #166534;
+        }
+
+        #wk-feedback.wrong {
+            background-color: #fee2e2;
+            border: 2px solid #ef4444;
+            color: #991b1b;
+        }
     </style>
 </head>
 
