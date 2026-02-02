@@ -568,22 +568,37 @@ function setupWkMap(callback) {
         if (callback) callback();
     }
 
-    // Funktion um auf SVG-Laden zu warten mit Polling
-    function waitForSvg() {
-        if (mapObject.contentDocument && !initialized) {
-            // SVG ist bereit
-            initSvgPaths();
-        } else if (!initialized) {
-            // Noch nicht bereit - nochmal versuchen
-            setTimeout(waitForSvg, 50);
-        }
-    }
+    // Robustes Polling mit Interval und Timeout
+    let attempts = 0;
+    const maxAttempts = 100; // 100 * 100ms = 10 Sekunden max
 
-    // Starte Polling
-    waitForSvg();
+    const pollInterval = setInterval(() => {
+        attempts++;
+
+        if (initialized) {
+            // Erfolgreich initialisiert
+            clearInterval(pollInterval);
+            return;
+        }
+
+        if (mapObject.contentDocument) {
+            // SVG ist bereit - initialisieren
+            initSvgPaths();
+            clearInterval(pollInterval);
+        } else if (attempts >= maxAttempts) {
+            // Timeout erreicht
+            console.error('Timeout beim Laden der Weltkarte');
+            clearInterval(pollInterval);
+        }
+    }, 100); // Alle 100ms prüfen
 
     // Zusätzlich: Load Event als Backup
-    mapObject.addEventListener('load', initSvgPaths);
+    mapObject.addEventListener('load', () => {
+        if (!initialized) {
+            initSvgPaths();
+            clearInterval(pollInterval);
+        }
+    });
 }
 
 function showWkQuestion() {
