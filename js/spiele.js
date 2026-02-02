@@ -539,7 +539,10 @@ function initWeltkarte() {
     wkKontinente = shuffle(Object.keys(kontinentNamen)).slice(0, 6);
     totalQuestions = wkKontinente.length;
     currentQuestion = 0;
-
+    
+    // Reset Flag für neue Spielrunde
+    wkMapInitialized = false;
+    
     // Setup Karte und zeige erste Frage erst danach
     setupWkMap(() => {
         showWkQuestion();
@@ -556,16 +559,32 @@ function setupWkMap(callback) {
 
     function initSvgPaths() {
         const svgDoc = mapObject.contentDocument;
-        if (!svgDoc) return;
+        if (!svgDoc) {
+            console.log('SVG contentDocument nicht verfügbar');
+            return;
+        }
 
         const paths = svgDoc.querySelectorAll('path[id]');
-        if (paths.length === 0) return;
+        if (paths.length === 0) {
+            console.log('Keine SVG-Pfade gefunden');
+            return;
+        }
+
+        console.log(`Weltkarte: ${paths.length} Länder-Pfade gefunden`);
 
         // Flag setzen - SVG ist bereit
         wkMapInitialized = true;
 
         // Erstelle named handler für mögliche spätere Entfernung
         wkClickHandler = wkClickHandler || ((e) => handleWkClick(e.target));
+
+        let coloredCount = 0;
+        
+        // SVG Hintergrund setzen
+        const svg = svgDoc.querySelector('svg');
+        if (svg) {
+            svg.style.background = 'linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%)';
+        }
 
         paths.forEach(path => {
             const countryCode = path.id;
@@ -576,6 +595,8 @@ function setupWkMap(callback) {
                 const farben = KONTINENT_FARBEN[kontinent];
                 path.style.fill = farben.fill;
                 path.style.stroke = farben.hover;
+                path.style.strokeWidth = '0.5';
+                path.style.transition = 'all 0.2s ease';
 
                 // CSS-Klasse für Hover-Effekte
                 path.classList.add('wk-country');
@@ -586,8 +607,16 @@ function setupWkMap(callback) {
 
                 // Cursor
                 path.style.cursor = 'pointer';
+                coloredCount++;
+            } else {
+                // Unbekannte Länder in Hellgrau
+                path.style.fill = '#e5e7eb';
+                path.style.stroke = '#ffffff';
+                path.style.strokeWidth = '0.3';
             }
         });
+
+        console.log(`Weltkarte: ${coloredCount} Länder mit Kontinent-Farben zugewiesen`);
 
         // Setup abgeschlossen - Callback aufrufen
         if (callback) callback();
@@ -600,7 +629,7 @@ function setupWkMap(callback) {
     const pollInterval = setInterval(() => {
         attempts++;
 
-        if (initialized) {
+        if (wkMapInitialized) {
             clearInterval(pollInterval);
             return;
         }
@@ -610,17 +639,28 @@ function setupWkMap(callback) {
             clearInterval(pollInterval);
         } else if (attempts >= maxAttempts) {
             console.error('Timeout beim Laden der Weltkarte');
+            showMapError();
             clearInterval(pollInterval);
         }
     }, 100);
 
     // Zusätzlich: Load Event als Backup
     mapObject.addEventListener('load', () => {
-        if (!initialized) {
+        if (!wkMapInitialized) {
             initSvgPaths();
             clearInterval(pollInterval);
         }
     });
+}
+
+// Zeigt Fehlermeldung wenn die Karte nicht geladen werden kann
+function showMapError() {
+    const wkFeedback = document.getElementById('wk-feedback');
+    if (wkFeedback) {
+        wkFeedback.textContent = '❌ Karte konnte nicht geladen werden. Bitte Seite neu laden.';
+        wkFeedback.className = 'feedback wrong';
+        wkFeedback.classList.remove('hidden');
+    }
 }
 
 function showWkQuestion() {
