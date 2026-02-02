@@ -579,7 +579,7 @@ function setupWkMap(callback) {
         wkClickHandler = wkClickHandler || ((e) => handleWkClick(e.target));
 
         let coloredCount = 0;
-        
+
         // SVG Hintergrund setzen
         const svg = svgDoc.querySelector('svg');
         if (svg) {
@@ -593,13 +593,32 @@ function setupWkMap(callback) {
             if (kontinent && KONTINENT_FARBEN[kontinent]) {
                 // Kontinent-Farbe zuweisen
                 const farben = KONTINENT_FARBEN[kontinent];
-                path.style.fill = farben.fill;
-                path.style.stroke = farben.hover;
-                path.style.strokeWidth = '0.5';
+
+                // WICHTIG: Verwende setAttribute statt style.fill für höhere Priorität
+                // SVG-Attribute haben Vorrang vor CSS-Klassen
+                path.setAttribute('fill', farben.fill);
+                path.setAttribute('stroke', farben.hover);
+                path.setAttribute('stroke-width', '0.5');
                 path.style.transition = 'all 0.2s ease';
 
-                // CSS-Klasse für Hover-Effekte
+                // CSS-Klasse für Hover-Effekte und Feedback
                 path.classList.add('wk-country');
+                // Speichere die ursprüngliche Farbe für Hover-Reset
+                path.setAttribute('data-original-fill', farben.fill);
+                path.setAttribute('data-hover-fill', farben.hover);
+
+                // Hover-Effekte via JavaScript (zuverlässiger als CSS für SVG in Object-Tag)
+                path.addEventListener('mouseenter', function() {
+                    if (!this.classList.contains('correct') && !this.classList.contains('wrong')) {
+                        this.setAttribute('fill', this.getAttribute('data-hover-fill'));
+                    }
+                });
+
+                path.addEventListener('mouseleave', function() {
+                    if (!this.classList.contains('correct') && !this.classList.contains('wrong')) {
+                        this.setAttribute('fill', this.getAttribute('data-original-fill'));
+                    }
+                });
 
                 // Click-Handler nur hinzufügen wenn nicht bereits vorhanden
                 path.removeEventListener('click', wkClickHandler);
@@ -610,9 +629,9 @@ function setupWkMap(callback) {
                 coloredCount++;
             } else {
                 // Unbekannte Länder in Hellgrau
-                path.style.fill = '#e5e7eb';
-                path.style.stroke = '#ffffff';
-                path.style.strokeWidth = '0.3';
+                path.setAttribute('fill', '#e5e7eb');
+                path.setAttribute('stroke', '#ffffff');
+                path.setAttribute('stroke-width', '0.3');
             }
         });
 
@@ -622,7 +641,25 @@ function setupWkMap(callback) {
         if (callback) callback();
     }
 
-    // Robustes Polling mit Interval und Timeout
+    // LÖSUNG: Load Event als primäre Methode
+    // Das load-Event ist zuverlässiger als Polling
+    const loadHandler = () => {
+        if (!wkMapInitialized) {
+            console.log('Weltkarte: load-Event ausgelöst');
+            initSvgPaths();
+        }
+    };
+
+    mapObject.addEventListener('load', loadHandler);
+
+    // Fallback: Prüfe ob SVG bereits geladen ist (bei schnellem Cache)
+    if (mapObject.contentDocument) {
+        console.log('Weltkarte: Bereits aus Cache geladen');
+        initSvgPaths();
+        return;
+    }
+
+    // Zusätzlich: Robustes Polling als Backup (falls load-Event fehlt)
     let attempts = 0;
     const maxAttempts = 100; // 100 * 100ms = 10 Sekunden max
 
@@ -635,6 +672,7 @@ function setupWkMap(callback) {
         }
 
         if (mapObject.contentDocument) {
+            console.log('Weltkarte: Durch Polling gefunden');
             initSvgPaths();
             clearInterval(pollInterval);
         } else if (attempts >= maxAttempts) {
@@ -643,14 +681,6 @@ function setupWkMap(callback) {
             clearInterval(pollInterval);
         }
     }, 100);
-
-    // Zusätzlich: Load Event als Backup
-    mapObject.addEventListener('load', () => {
-        if (!wkMapInitialized) {
-            initSvgPaths();
-            clearInterval(pollInterval);
-        }
-    });
 }
 
 // Zeigt Fehlermeldung wenn die Karte nicht geladen werden kann
@@ -669,12 +699,17 @@ function showWkQuestion() {
         return;
     }
 
-    // Reset - alle Länder-Pfade zurücksetzen
+    // Reset - alle Länder-Pfade zurücksetzen und Farben wiederherstellen
     const mapObject = document.getElementById('wk-map-object');
     if (mapObject && mapObject.contentDocument) {
         const paths = mapObject.contentDocument.querySelectorAll('path.wk-country');
         paths.forEach(path => {
             path.classList.remove('correct', 'wrong');
+            // Farbe zurücksetzen zur ursprünglichen Kontinent-Farbe
+            const originalFill = path.getAttribute('data-original-fill');
+            if (originalFill) {
+                path.setAttribute('fill', originalFill);
+            }
         });
     }
 
@@ -704,6 +739,9 @@ function handleWkClick(element) {
 
     if (clickedNormalized === correctNormalized) {
         element.classList.add('correct');
+        // Setze Farbe direkt für sofortiges Feedback
+        element.setAttribute('fill', '#22c55e');
+        element.setAttribute('stroke', '#16a34a');
         currentScore += 10;
 
         setTimeout(() => {
@@ -712,9 +750,19 @@ function handleWkClick(element) {
         }, 800);
     } else {
         element.classList.add('wrong');
+        // Setze Farbe direkt für sofortiges Feedback
+        element.setAttribute('fill', '#ef4444');
+        element.setAttribute('stroke', '#dc2626');
 
         setTimeout(() => {
             element.classList.remove('wrong');
+            // Farbe zurücksetzen
+            const originalFill = element.getAttribute('data-original-fill');
+            const originalStroke = element.getAttribute('data-hover-fill');
+            if (originalFill) {
+                element.setAttribute('fill', originalFill);
+                element.setAttribute('stroke', originalStroke);
+            }
         }, 500);
     }
 
