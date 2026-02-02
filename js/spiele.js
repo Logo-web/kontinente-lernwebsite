@@ -515,8 +515,43 @@ function initWeltkarte() {
 }
 
 function setupWkMap() {
-    document.querySelectorAll('.wk-continent').forEach(cont => {
-        cont.addEventListener('click', (e) => handleWkClick(e.target));
+    const mapObject = document.getElementById('wk-map-object');
+
+    if (!mapObject) {
+        console.error('Karten-Objekt nicht gefunden');
+        return;
+    }
+
+    // Warte auf SVG-Laden
+    mapObject.addEventListener('load', function() {
+        const svgDoc = mapObject.contentDocument;
+        if (!svgDoc) {
+            console.error('SVG nicht geladen');
+            return;
+        }
+
+        const paths = svgDoc.querySelectorAll('path[id]');
+
+        paths.forEach(path => {
+            const countryCode = path.id;
+            const kontinent = findeKontinent(countryCode);
+
+            if (kontinent && KONTINENT_FARBEN[kontinent]) {
+                // Kontinent-Farbe zuweisen
+                const farben = KONTINENT_FARBEN[kontinent];
+                path.style.fill = farben.fill;
+                path.style.stroke = farben.hover;
+
+                // CSS-Klasse für Hover-Effekte
+                path.classList.add('wk-country');
+
+                // Click-Handler
+                path.addEventListener('click', (e) => handleWkClick(e.target));
+
+                // Cursor
+                path.style.cursor = 'pointer';
+            }
+        });
     });
 }
 
@@ -526,10 +561,14 @@ function showWkQuestion() {
         return;
     }
 
-    // Reset
-    document.querySelectorAll('.wk-continent').forEach(c => {
-        c.classList.remove('correct', 'wrong');
-    });
+    // Reset - alle Länder-Pfade zurücksetzen
+    const mapObject = document.getElementById('wk-map-object');
+    if (mapObject && mapObject.contentDocument) {
+        const paths = mapObject.contentDocument.querySelectorAll('path.wk-country');
+        paths.forEach(path => {
+            path.classList.remove('correct', 'wrong');
+        });
+    }
 
     const kontinent = wkKontinente[currentQuestion];
     document.getElementById('wk-kontinent').textContent =
@@ -540,23 +579,38 @@ function showWkQuestion() {
 }
 
 function handleWkClick(element) {
-    const clicked = element.id.replace('wk-', '');
-    const correct = wkKontinente[currentQuestion];
+    const countryCode = element.id;
+    const clickedKontinent = findeKontinent(countryCode);
+    const correctKontinent = wkKontinente[currentQuestion];
 
-    if (clicked === correct) {
+    // Kontinentname normalisieren (für Vergleich)
+    const normalizeKontinent = (name) => {
+        return name.toLowerCase()
+            .replace('ü', 'ue')
+            .replace('ö', 'oe')
+            .replace('ä', 'ae');
+    };
+
+    const clickedNormalized = normalizeKontinent(clickedKontinent || '');
+    const correctNormalized = normalizeKontinent(correctKontinent || '');
+
+    if (clickedNormalized === correctNormalized) {
         element.classList.add('correct');
         currentScore += 10;
-        showFeedback(true);
+
+        setTimeout(() => {
+            currentQuestion++;
+            showWkQuestion();
+        }, 800);
     } else {
         element.classList.add('wrong');
-        document.getElementById(`wk-${correct}`).classList.add('correct');
-        showFeedback(false);
+
+        setTimeout(() => {
+            element.classList.remove('wrong');
+        }, 500);
     }
 
-    setTimeout(() => {
-        currentQuestion++;
-        showWkQuestion();
-    }, 1500);
+    document.getElementById('score-display').textContent = `${PlayerManager.currentPlayer.score + currentScore} ⭐`;
 }
 
 // ========================================

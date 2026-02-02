@@ -78,6 +78,40 @@
             fill: #ef4444 !important;
             stroke: #dc2626 !important;
         }
+
+        /* Styles für echte Weltkarte */
+        .world-map-object {
+            width: 100%;
+            height: auto;
+            min-height: 350px;
+            max-width: 100%;
+            border-radius: 12px;
+            display: block;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .wk-country {
+            stroke-width: 1;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .wk-country:hover {
+            filter: brightness(1.15);
+            stroke-width: 2;
+        }
+
+        .wk-country.correct {
+            fill: #22c55e !important;
+            stroke: #16a34a !important;
+            stroke-width: 2;
+        }
+
+        .wk-country.wrong {
+            fill: #ef4444 !important;
+            stroke: #dc2626 !important;
+            stroke-width: 2;
+        }
     </style>
 </head>
 
@@ -193,69 +227,10 @@
                 <h2 id="wk-kontinent"></h2>
             </div>
             <div class="world-map-container small-map">
-                <svg id="wk-map" viewBox="0 0 1000 500" class="world-map clickable">
-                    <!-- Nordamerika -->
-                    <path id="wk-nordamerika" class="continent wk-continent" data-name="Nordamerika" d="
-                        M50,120 L70,100 L95,85 L130,75 L160,70 L190,65 L210,60 
-                        L230,55 L255,60 L275,70 L290,65 L305,75 L315,90 
-                        L320,110 L315,130 L305,145 L290,155 L275,165 L260,180 
-                        L245,195 L235,210 L230,225 L240,235 L255,240 L270,235 
-                        L280,225 L285,210 L295,200 L310,195 L320,205 L315,220 
-                        L305,235 L290,245 L275,255 L260,260 L245,258 L230,250 
-                        L215,245 L200,250 L185,260 L170,255 L155,245 L140,235 
-                        L125,225 L110,220 L95,225 L80,235 L70,250 L65,235 
-                        L60,220 L55,200 L50,180 L45,160 L45,140 Z" />
-                    <!-- Südamerika -->
-                    <path id="wk-suedamerika" class="continent wk-continent" data-name="Südamerika" d="
-                        M230,265 L245,262 L260,270 L275,280 L285,295 L290,315 
-                        L288,335 L282,355 L275,375 L265,395 L255,410 
-                        L245,425 L235,438 L228,448 L222,455 L218,460 
-                        L215,455 L212,445 L210,430 L205,415 L198,400 
-                        L192,385 L188,370 L186,355 L188,340 L192,325 
-                        L198,310 L205,295 L212,282 L220,272 Z" />
-                    <!-- Europa -->
-                    <path id="wk-europa" class="continent wk-continent" data-name="Europa" d="
-                        M430,75 L445,68 L460,65 L475,62 L490,65 L505,70 
-                        L520,78 L530,88 L535,100 L530,112 L522,122 
-                        L512,130 L500,138 L488,145 L475,150 L460,152 
-                        L445,148 L432,142 L422,132 L418,120 L420,108 
-                        L425,95 L430,85 Z
-                        M490,150 L498,155 L505,165 L502,175 L492,178 L485,170 L488,160 Z" />
-                    <!-- Afrika -->
-                    <path id="wk-afrika" class="continent wk-continent" data-name="Afrika" d="
-                        M440,168 L455,165 L475,162 L495,165 L515,170 
-                        L530,178 L542,190 L550,205 L555,225 L558,245 
-                        L558,265 L555,285 L550,305 L542,325 L530,345 
-                        L515,360 L498,372 L480,378 L462,375 L448,365 
-                        L438,350 L432,332 L430,312 L432,292 L435,272 
-                        L438,252 L440,232 L438,212 L435,195 L438,180 Z" />
-                    <!-- Asien -->
-                    <path id="wk-asien" class="continent wk-continent" data-name="Asien" d="
-                        M540,65 L565,55 L595,48 L630,45 L670,48 L710,55 
-                        L745,65 L775,78 L800,95 L818,115 L830,138 L838,162 
-                        L840,188 L835,215 L825,238 L810,258 L790,275 
-                        L768,288 L742,298 L715,305 L688,308 L660,305 
-                        L635,298 L612,288 L592,275 L575,260 L562,242 
-                        L552,222 L545,200 L542,178 L542,155 L545,132 
-                        L548,110 L545,88 Z
-                        M845,285 L860,278 L875,282 L885,295 L888,312 
-                        L882,328 L870,340 L855,345 L840,340 L832,325 
-                        L835,305 L842,292 Z" />
-                    <!-- Australien -->
-                    <path id="wk-australien" class="continent wk-continent" data-name="Australien" d="
-                        M755,320 L775,312 L798,308 L822,312 L845,322 
-                        L862,338 L872,358 L875,380 L870,402 L858,420 
-                        L840,432 L818,438 L795,435 L772,425 L755,410 
-                        L745,390 L742,368 L745,345 L750,330 Z
-                        M885,305 L895,310 L900,322 L895,335 L882,338 L875,325 L878,312 Z" />
-                    <!-- Antarktis -->
-                    <path id="wk-antarktis" class="continent wk-continent" data-name="Antarktis" d="
-                        M150,465 L200,458 L280,452 L360,448 L440,452 
-                        L520,455 L600,452 L680,455 L760,458 L840,465 
-                        L870,475 L850,488 L780,492 L700,495 L600,498 
-                        L500,498 L400,495 L300,492 L220,488 L160,480 
-                        L135,472 Z" />
-                </svg>
+                <object id="wk-map-object" data="data/mapsvg-world.svg" type="image/svg+xml"
+                        class="world-map-object" aria-label="Interaktive Weltkarte">
+                    <p>Dein Browser unterstützt keine SVG-Anzeige. Bitte verwende einen modernen Browser.</p>
+                </object>
             </div>
         </div>
         <div id="wk-feedback" class="feedback hidden"></div>
@@ -278,6 +253,7 @@
     </div>
 
     <script src="data/inhalte.js"></script>
+    <script src="js/weltkarte.js"></script>
     <script src="js/main.js"></script>
     <script src="js/spiele.js"></script>
 </body>
