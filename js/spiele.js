@@ -517,31 +517,43 @@ function initWeltkarte() {
 }
 
 function setupWkMap(callback) {
+    console.log('[WK] setupWkMap called');
     const mapObject = document.getElementById('wk-map-object');
 
     if (!mapObject) {
-        console.error('Karten-Objekt nicht gefunden');
+        console.error('[WK] Karten-Objekt nicht gefunden');
         return;
     }
 
+    console.log('[WK] Map object found');
     let initialized = false;
 
     function initSvgPaths() {
+        console.log('[WK] initSvgPaths called, initialized:', initialized);
+
         // Verhindere doppelte Initialisierung
-        if (initialized) return;
+        if (initialized) {
+            console.log('[WK] Already initialized, returning');
+            return;
+        }
 
         const svgDoc = mapObject.contentDocument;
+        console.log('[WK] contentDocument exists:', !!svgDoc);
+
         if (!svgDoc) {
             return; // Kein Error-Log, da das normal beim Polling ist
         }
 
         const paths = svgDoc.querySelectorAll('path[id]');
+        console.log('[WK] Found paths:', paths.length);
+
         if (paths.length === 0) {
             return; // Keine Pfade gefunden
         }
 
         // Jetzt erst Flag setzen, da wir wissen dass SVG bereit ist
         initialized = true;
+        console.log('[WK] Starting to color paths...');
 
         paths.forEach(path => {
             const countryCode = path.id;
@@ -565,6 +577,7 @@ function setupWkMap(callback) {
         });
 
         // Setup abgeschlossen - Callback aufrufen
+        console.log('[WK] Setup complete, calling callback');
         if (callback) callback();
     }
 
@@ -572,22 +585,26 @@ function setupWkMap(callback) {
     let attempts = 0;
     const maxAttempts = 100; // 100 * 100ms = 10 Sekunden max
 
+    console.log('[WK] Starting interval polling...');
     const pollInterval = setInterval(() => {
         attempts++;
+        console.log('[WK] Poll attempt', attempts, 'contentDocument:', !!mapObject.contentDocument);
 
         if (initialized) {
             // Erfolgreich initialisiert
+            console.log('[WK] Stopping interval - initialized');
             clearInterval(pollInterval);
             return;
         }
 
         if (mapObject.contentDocument) {
             // SVG ist bereit - initialisieren
+            console.log('[WK] ContentDocument ready, calling initSvgPaths');
             initSvgPaths();
             clearInterval(pollInterval);
         } else if (attempts >= maxAttempts) {
             // Timeout erreicht
-            console.error('Timeout beim Laden der Weltkarte');
+            console.error('[WK] Timeout beim Laden der Weltkarte');
             clearInterval(pollInterval);
         }
     }, 100); // Alle 100ms prüfen
