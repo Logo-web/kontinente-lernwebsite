@@ -406,9 +406,10 @@ function showZuordnungItem() {
     const options = shuffle([item.kontinent, ...wrongOptions]);
 
     const container = document.getElementById('zuordnung-options');
+    // Keine Emojis in den Antwort-Buttons, damit man nicht durch das Emoji die Antwort erraten kann
     container.innerHTML = options.map(k => `
         <button class="zuordnung-btn" data-kontinent="${k}">
-            ${kontinentEmojis[k]} ${kontinentNamen[k]}
+            ${kontinentNamen[k]}
         </button>
     `).join('');
 
