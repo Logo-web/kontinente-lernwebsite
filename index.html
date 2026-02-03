@@ -326,53 +326,76 @@
 
                 // Alle Pfade durchgehen und nach Kontinenten einfärben
                 const paths = svg.querySelectorAll('path');
+                
+                // Gruppiere Länder nach Kontinent für gemeinsames Highlighting
+                const kontinentPaths = {};
+                
                 paths.forEach(path => {
                     const landCode = path.id;
                     const kontinent = findeKontinent(landCode);
 
                     if (kontinent && KONTINENT_FARBEN[kontinent]) {
                         const farben = KONTINENT_FARBEN[kontinent];
+                        
+                        // Speichere Pfad in Kontinent-Gruppe
+                        if (!kontinentPaths[kontinent]) {
+                            kontinentPaths[kontinent] = [];
+                        }
+                        kontinentPaths[kontinent].push({ path, farben });
 
                         path.style.fill = farben.fill;
                         path.style.stroke = '#ffffff';
                         path.style.strokeWidth = '0.5';
                         path.style.transition = 'all 0.2s ease';
                         path.style.cursor = 'pointer';
-
-                        path.addEventListener('mouseenter', function (e) {
-                            this.style.fill = farben.hover;
-                            this.style.filter = 'brightness(1.1)';
-                            this.style.strokeWidth = '1';
-
-                            tooltip.textContent = kontinent;
-                            tooltip.style.display = 'block';
-                        });
-
-                        path.addEventListener('mousemove', function (e) {
-                            tooltip.style.left = (e.clientX + 15) + 'px';
-                            tooltip.style.top = (e.clientY + 15) + 'px';
-                        });
-
-                        path.addEventListener('mouseleave', function () {
-                            this.style.fill = farben.fill;
-                            this.style.filter = '';
-                            this.style.strokeWidth = '0.5';
-                            tooltip.style.display = 'none';
-                        });
-
-                        path.addEventListener('click', function () {
-                            const kontId = kontinent.toLowerCase()
-                                .replace('ü', 'ue')
-                                .replace('ö', 'oe')
-                                .replace('ä', 'ae');
-                            window.location.href = 'kontinent.html?id=' + kontId;
-                        });
+                        path.dataset.kontinent = kontinent;
                     } else {
                         // Unbekannte Länder hellgrau färben
                         path.style.fill = '#e5e7eb';
                         path.style.stroke = '#ffffff';
                         path.style.strokeWidth = '0.3';
                     }
+                });
+                
+                // Füge Event-Listener hinzu die den ganzen Kontinent highlighten
+                paths.forEach(path => {
+                    const kontinent = path.dataset.kontinent;
+                    if (!kontinent || !kontinentPaths[kontinent]) return;
+                    
+                    const farben = KONTINENT_FARBEN[kontinent];
+                    
+                    path.addEventListener('mouseenter', function (e) {
+                        // Highlight alle Länder des Kontinents
+                        kontinentPaths[kontinent].forEach(({ path: p, farben: f }) => {
+                            p.style.fill = f.hover;
+                            p.style.filter = 'brightness(1.1)';
+                        });
+                        
+                        tooltip.textContent = kontinent;
+                        tooltip.style.display = 'block';
+                    });
+
+                    path.addEventListener('mousemove', function (e) {
+                        tooltip.style.left = (e.clientX + 15) + 'px';
+                        tooltip.style.top = (e.clientY + 15) + 'px';
+                    });
+
+                    path.addEventListener('mouseleave', function () {
+                        // Reset alle Länder des Kontinents
+                        kontinentPaths[kontinent].forEach(({ path: p, farben: f }) => {
+                            p.style.fill = f.fill;
+                            p.style.filter = '';
+                        });
+                        tooltip.style.display = 'none';
+                    });
+
+                    path.addEventListener('click', function () {
+                        const kontId = kontinent.toLowerCase()
+                            .replace('ü', 'ue')
+                            .replace('ö', 'oe')
+                            .replace('ä', 'ae');
+                        window.location.href = 'kontinent.html?id=' + kontId;
+                    });
                 });
 
                 // Karte anzeigen
