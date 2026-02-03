@@ -457,92 +457,84 @@ function initMemory() {
     document.getElementById('memory-spiel').classList.remove('hidden');
     document.getElementById('spiel-titel').textContent = '🃏 Memory';
 
-    // Memory-Paare: Tier/Fakt + passender Kontinent
+    // Memory-Paare: Tier/Sehenswürdigkeit + passender Kontinent
+    // Bilder müssen in die Ordner unter /images/ eingefügt werden
     const pairs = [
         { 
             id: 1,
-            tierEmoji: '🦁', 
-            tierName: 'Löwe', 
-            fakt: 'König der Tiere',
+            itemImage: 'images/tiere/loewe.jpg', 
+            itemName: 'Löwe',
             kontinent: 'afrika',
-            kontinentName: 'Afrika',
-            kontinentEmoji: '🌍'
+            kontinentImage: 'images/kontinente/afrika.png',
+            kontinentName: 'Afrika'
         },
         { 
             id: 2,
-            tierEmoji: '🐘', 
-            tierName: 'Elefant', 
-            fakt: 'Größtes Landtier',
+            itemImage: 'images/tiere/elefant.jpg', 
+            itemName: 'Elefant',
             kontinent: 'afrika',
-            kontinentName: 'Afrika',
-            kontinentEmoji: '🌍'
+            kontinentImage: 'images/kontinente/afrika.png',
+            kontinentName: 'Afrika'
         },
         { 
             id: 3,
-            tierEmoji: '🐼', 
-            tierName: 'Panda', 
-            fakt: 'Isst nur Bambus',
+            itemImage: 'images/tiere/panda.jpg', 
+            itemName: 'Panda',
             kontinent: 'asien',
-            kontinentName: 'Asien',
-            kontinentEmoji: '🐼'
+            kontinentImage: 'images/kontinente/asien.png',
+            kontinentName: 'Asien'
         },
         { 
             id: 4,
-            tierEmoji: '🦘', 
-            tierName: 'Känguru', 
-            fakt: 'Kann hüpfen',
+            itemImage: 'images/tiere/kaenguru.jpg', 
+            itemName: 'Känguru',
             kontinent: 'australien',
-            kontinentName: 'Australien',
-            kontinentEmoji: '🦘'
+            kontinentImage: 'images/kontinente/australien.png',
+            kontinentName: 'Australien'
         },
         { 
             id: 5,
-            tierEmoji: '🗼', 
-            tierName: 'Eiffelturm', 
-            fakt: 'In Paris',
+            itemImage: 'images/sehenswuerdigkeiten/eiffelturm.jpg', 
+            itemName: 'Eiffelturm',
             kontinent: 'europa',
-            kontinentName: 'Europa',
-            kontinentEmoji: '🏰'
+            kontinentImage: 'images/kontinente/europa.png',
+            kontinentName: 'Europa'
         },
         { 
             id: 6,
-            tierEmoji: '🏛️', 
-            tierName: 'Pyramiden', 
-            fakt: 'Seit 4000 Jahren',
+            itemImage: 'images/sehenswuerdigkeiten/pyramiden.jpg', 
+            itemName: 'Pyramiden',
             kontinent: 'afrika',
-            kontinentName: 'Afrika',
-            kontinentEmoji: '🌍'
+            kontinentImage: 'images/kontinente/afrika.png',
+            kontinentName: 'Afrika'
         },
         { 
             id: 7,
-            tierEmoji: '🗽', 
-            tierName: 'Freiheitsstatue', 
-            fakt: 'In New York',
+            itemImage: 'images/sehenswuerdigkeiten/freiheitsstatue.jpg', 
+            itemName: 'Freiheitsstatue',
             kontinent: 'nordamerika',
-            kontinentName: 'Nordamerika',
-            kontinentEmoji: '🗽'
+            kontinentImage: 'images/kontinente/nordamerika.png',
+            kontinentName: 'Nordamerika'
         },
         { 
             id: 8,
-            tierEmoji: '🦜', 
-            tierName: 'Papagei', 
-            fakt: 'Kann sprechen',
+            itemImage: 'images/tiere/papagei.jpg', 
+            itemName: 'Papagei',
             kontinent: 'suedamerika',
-            kontinentName: 'Südamerika',
-            kontinentEmoji: '🦜'
+            kontinentImage: 'images/kontinente/suedamerika.png',
+            kontinentName: 'Südamerika'
         }
     ];
 
-    // Erstelle Karten: Für jedes Paar eine Tier-Karte und eine Kontinent-Karte
+    // Erstelle Karten: Für jedes Paar eine Item-Karte und eine Kontinent-Karte
     let cards = [];
     pairs.forEach(pair => {
-        // Tier-Karte
+        // Item-Karte (Tier oder Sehenswürdigkeit)
         cards.push({
             id: pair.id,
-            type: 'tier',
-            content: `${pair.tierEmoji}`,
-            subtext: pair.tierName,
-            fakt: pair.fakt,
+            type: 'item',
+            image: pair.itemImage,
+            name: pair.itemName,
             kontinent: pair.kontinent,
             matched: false
         });
@@ -550,8 +542,8 @@ function initMemory() {
         cards.push({
             id: pair.id,
             type: 'kontinent',
-            content: pair.kontinentEmoji,
-            subtext: pair.kontinentName,
+            image: pair.kontinentImage,
+            name: pair.kontinentName,
             kontinent: pair.kontinent,
             matched: false
         });
@@ -571,7 +563,9 @@ function renderMemoryGrid() {
     grid.innerHTML = memoryCards.map((card, idx) => `
         <div class="memory-card" data-index="${idx}">
             <span class="front">
-                <span class="memory-text">${card.subtext}</span>
+                <img src="${card.image}" alt="${card.name}" class="memory-image" 
+                     onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📷</text></svg>'">
+                <span class="memory-caption">${card.name}</span>
             </span>
             <span class="back">❓</span>
         </div>
