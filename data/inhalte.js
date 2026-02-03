@@ -435,12 +435,13 @@ const KONTINENTE_DATA = {
                 "antwort": 2,
                 "bild": "giraffe.jpg"
             },
+            /* Deaktiviert - Antarktis nicht auf der Karte
             {
                 "frage": "Wo leben Pinguine?",
                 "optionen": ["Antarktis", "Afrika", "Asien"],
                 "antwort": 0,
                 "bild": "pinguin.jpg"
-            },
+            }, */
             {
                 "frage": "In welchem Kontinent steht der Eiffelturm?",
                 "optionen": ["Nordamerika", "Europa", "Asien"],
@@ -493,11 +494,12 @@ const KONTINENTE_DATA = {
             }
         ],
         "schwer": [
+            /* Deaktiviert - Antarktis nicht auf der Karte
             {
                 "frage": "Welcher Kontinent hat keine dauerhaften Bewohner?",
                 "optionen": ["Australien", "Antarktis", "Südamerika"],
                 "antwort": 1
-            },
+            }, */
             {
                 "frage": "Machu Picchu wurde von welchem Volk gebaut?",
                 "optionen": ["Maya", "Inka", "Azteken"],
@@ -514,7 +516,8 @@ const KONTINENTE_DATA = {
         { "item": "Löwe", "kontinent": "afrika", "bild": "loewe.jpg" },
         { "item": "Känguru", "kontinent": "australien", "bild": "kaenguru.jpg" },
         { "item": "Panda", "kontinent": "asien", "bild": "panda.jpg" },
-        { "item": "Pinguin", "kontinent": "antarktis", "bild": "pinguin.jpg" },
+        // Deaktiviert - Antarktis nicht auf der Karte
+        // { "item": "Pinguin", "kontinent": "antarktis", "bild": "pinguin.jpg" },
         { "item": "Faultier", "kontinent": "suedamerika", "bild": "faultier.jpg" },
         { "item": "Eiffelturm", "kontinent": "europa", "bild": "eiffelturm.jpg" },
         { "item": "Freiheitsstatue", "kontinent": "nordamerika", "bild": "freiheitsstatue.jpg" },
@@ -523,11 +526,12 @@ const KONTINENTE_DATA = {
         { "item": "Tiger", "kontinent": "asien", "bild": "tiger.jpg" }
     ],
     "richtigFalsch": [
+        /* Deaktiviert - Antarktis nicht auf der Karte
         {
             "aussage": "Pinguine leben am Nordpol.",
             "antwort": false,
             "erklaerung": "Pinguine leben in der Antarktis, am Südpol!"
-        },
+        }, */
         {
             "aussage": "Der Eiffelturm steht in Paris.",
             "antwort": true,
