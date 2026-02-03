@@ -32,6 +32,7 @@ const emojiMap = {
     'pinguin': '🐧',
     'robbe': '🦭',
     'albatros': '🦅',
+    'asien_elefant': '🐘',
 
     // Landschaften
     'sahara': '🏜️',

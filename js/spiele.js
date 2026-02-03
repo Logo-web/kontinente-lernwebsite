@@ -139,6 +139,7 @@ function showGameSelection() {
     hideAllContainers();
     document.getElementById('spiel-auswahl').classList.remove('hidden');
     document.getElementById('spiel-titel').textContent = '🎮 Spiele';
+    updatePlayedGamesBadges();
 }
 
 function hideAllContainers() {
@@ -203,6 +204,9 @@ function showResult() {
         addPoints(currentScore);
         updatePlayerDisplay();
     }
+    
+    // Spiel als gespielt markieren
+    markGameAsPlayed(currentGame);
 }
 
 function showFeedback(correct, message) {
@@ -1168,6 +1172,48 @@ function shuffle(array) {
         [arr[i], arr[j]] = [arr[j], arr[i]];
     }
     return arr;
+}
+
+// ========================================
+// GESPIELTE SPIELE TRACKING
+// ========================================
+
+function getPlayedGames() {
+    const saved = localStorage.getItem('kontinente_playedGames');
+    return saved ? JSON.parse(saved) : {};
+}
+
+function markGameAsPlayed(gameType) {
+    const played = getPlayedGames();
+    played[gameType] = {
+        lastPlayed: new Date().toISOString(),
+        timesPlayed: (played[gameType]?.timesPlayed || 0) + 1
+    };
+    localStorage.setItem('kontinente_playedGames', JSON.stringify(played));
+}
+
+function isGamePlayed(gameType) {
+    const played = getPlayedGames();
+    return !!played[gameType];
+}
+
+function updatePlayedGamesBadges() {
+    const played = getPlayedGames();
+    
+    document.querySelectorAll('.game-select-btn').forEach(btn => {
+        const gameType = btn.dataset.spiel;
+        if (played[gameType]) {
+            // Badge hinzufügen falls noch nicht vorhanden
+            if (!btn.querySelector('.played-badge')) {
+                const badge = document.createElement('span');
+                badge.className = 'played-badge';
+                badge.textContent = '✓';
+                badge.title = `Schon ${played[gameType].timesPlayed}x gespielt`;
+                btn.appendChild(badge);
+            }
+            btn.classList.add('already-played');
+        }
+    });
 }
 
 // Zeigt Fehlermeldung wenn Daten nicht geladen werden können
