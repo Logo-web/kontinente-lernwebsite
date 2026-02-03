@@ -393,10 +393,42 @@
 
 .memory-card .front {
     display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    padding: var(--spacing-xs);
+}
+
+.memory-card.flipped .front {
+    display: flex;
+}
+
+.memory-card.flipped .back {
+    display: none;
 }
 
 .memory-card .back {
     font-size: 2rem;
+}
+
+.memory-card .memory-emoji {
+    font-size: 2rem;
+    line-height: 1;
+    margin-bottom: 2px;
+}
+
+.memory-card .memory-text {
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--color-text);
+    line-height: 1.2;
+    text-align: center;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .memory-card.flipped .front,
