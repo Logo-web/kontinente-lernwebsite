@@ -698,6 +698,9 @@ function setupWkMap(callback) {
         if (svg) {
             svg.style.background = 'linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%)';
         }
+        
+        // Gruppiere Länder nach Kontinent für gemeinsames Highlighting
+        const kontinentPaths = {};
 
         paths.forEach(path => {
             const countryCode = path.id;
@@ -706,6 +709,12 @@ function setupWkMap(callback) {
             if (kontinent && KONTINENT_FARBEN[kontinent]) {
                 // Kontinent-Farbe zuweisen
                 const farben = KONTINENT_FARBEN[kontinent];
+                
+                // Speichere Pfad in Kontinent-Gruppe
+                if (!kontinentPaths[kontinent]) {
+                    kontinentPaths[kontinent] = [];
+                }
+                kontinentPaths[kontinent].push({ path, farben });
 
                 // WICHTIG: Verwende setAttribute statt style.fill für höhere Priorität
                 // SVG-Attribute haben Vorrang vor CSS-Klassen
@@ -719,23 +728,7 @@ function setupWkMap(callback) {
                 // Speichere die ursprüngliche Farbe für Hover-Reset
                 path.setAttribute('data-original-fill', farben.fill);
                 path.setAttribute('data-hover-fill', farben.hover);
-
-                // Hover-Effekte via JavaScript (zuverlässiger als CSS für SVG in Object-Tag)
-                path.addEventListener('mouseenter', function() {
-                    if (!this.classList.contains('correct') && !this.classList.contains('wrong')) {
-                        this.setAttribute('fill', this.getAttribute('data-hover-fill'));
-                    }
-                });
-
-                path.addEventListener('mouseleave', function() {
-                    if (!this.classList.contains('correct') && !this.classList.contains('wrong')) {
-                        this.setAttribute('fill', this.getAttribute('data-original-fill'));
-                    }
-                });
-
-                // Click-Handler nur hinzufügen wenn nicht bereits vorhanden
-                path.removeEventListener('click', wkClickHandler);
-                path.addEventListener('click', wkClickHandler);
+                path.setAttribute('data-kontinent', kontinent);
 
                 // Cursor
                 path.style.cursor = 'pointer';
@@ -746,6 +739,37 @@ function setupWkMap(callback) {
                 path.setAttribute('stroke', '#ffffff');
                 path.setAttribute('stroke-width', '0.3');
             }
+        });
+        
+        // Füge Event-Listener hinzu die den ganzen Kontinent highlighten
+        paths.forEach(path => {
+            const kontinent = path.getAttribute('data-kontinent');
+            if (!kontinent || !kontinentPaths[kontinent]) return;
+            
+            // Hover-Effekte: Ganzer Kontinent wird hervorgehoben
+            path.addEventListener('mouseenter', function() {
+                if (this.classList.contains('correct') || this.classList.contains('wrong')) return;
+                
+                // Highlight alle Länder des Kontinents
+                kontinentPaths[kontinent].forEach(({ path: p, farben: f }) => {
+                    if (!p.classList.contains('correct') && !p.classList.contains('wrong')) {
+                        p.setAttribute('fill', f.hover);
+                    }
+                });
+            });
+
+            path.addEventListener('mouseleave', function() {
+                // Reset alle Länder des Kontinents
+                kontinentPaths[kontinent].forEach(({ path: p, farben: f }) => {
+                    if (!p.classList.contains('correct') && !p.classList.contains('wrong')) {
+                        p.setAttribute('fill', f.fill);
+                    }
+                });
+            });
+
+            // Click-Handler
+            path.removeEventListener('click', wkClickHandler);
+            path.addEventListener('click', wkClickHandler);
         });
 
         console.log(`Weltkarte: ${coloredCount} Länder mit Kontinent-Farben zugewiesen`);
