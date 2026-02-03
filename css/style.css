@@ -721,3 +721,54 @@ body {
     background-size: 200% 200%;
     animation: wave 15s ease infinite;
 }
+
+/* ========================================
+   HEADER & NAVIGATION
+   ======================================== */
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.btn-games {
+    font-family: 'Nunito', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    background: linear-gradient(135deg, #66BB6A 0%, #4CAF50 100%);
+    color: white;
+    text-decoration: none;
+    border-radius: var(--radius-sm);
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    box-shadow: var(--shadow-soft);
+}
+
+.btn-games:hover {
+    background: linear-gradient(135deg, #4CAF50 0%, #388E3C 100%);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-medium);
+}
+
+.btn-ranking {
+    font-family: 'Nunito', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    background: linear-gradient(135deg, #FFD700 0%, #FFA000 100%);
+    color: var(--color-text);
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-soft);
+}
+
+.btn-ranking:hover {
+    background: linear-gradient(135deg, #FFA000 0%, #FF8F00 100%);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-medium);
+}
