@@ -502,19 +502,19 @@ function initMemory() {
         },
         { 
             id: 6,
-            itemImage: 'images/sehenswuerdigkeiten/pyramiden.jpg', 
-            itemName: 'Pyramiden',
+            itemImage: 'images/tiere/giraffe.jpg', 
+            itemName: 'Giraffe',
             kontinent: 'afrika',
             kontinentImage: 'images/kontinente/afrika.png',
             kontinentName: 'Afrika'
         },
         { 
             id: 7,
-            itemImage: 'images/sehenswuerdigkeiten/freiheitsstatue.jpg', 
-            itemName: 'Freiheitsstatue',
-            kontinent: 'nordamerika',
-            kontinentImage: 'images/kontinente/nordamerika.png',
-            kontinentName: 'Nordamerika'
+            itemImage: 'images/tiere/tiger.jpg', 
+            itemName: 'Tiger',
+            kontinent: 'asien',
+            kontinentImage: 'images/kontinente/asien.png',
+            kontinentName: 'Asien'
         },
         { 
             id: 8,
