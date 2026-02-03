@@ -159,6 +159,29 @@ body {
     transform: scale(1.05);
 }
 
+.btn-games {
+    background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+    color: var(--color-white);
+    box-shadow: var(--shadow-soft);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Nunito', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--radius-sm);
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-height: 44px;
+}
+
+.btn-games:hover {
+    transform: scale(1.05);
+}
+
 /* ========================================
    MAIN CONTENT
    ======================================== */
