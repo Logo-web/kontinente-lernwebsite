@@ -457,23 +457,107 @@ function initMemory() {
     document.getElementById('memory-spiel').classList.remove('hidden');
     document.getElementById('spiel-titel').textContent = '🃏 Memory';
 
+    // Memory-Paare: Tier/Fakt + passender Kontinent
     const pairs = [
-        { emoji: '🦁', name: 'Löwe' },
-        { emoji: '🐘', name: 'Elefant' },
-        { emoji: '🐼', name: 'Panda' },
-        { emoji: '🦘', name: 'Känguru' },
-        { emoji: '🐧', name: 'Pinguin' },
-        { emoji: '🗼', name: 'Eiffelturm' },
-        { emoji: '🏛️', name: 'Pyramiden' },
-        { emoji: '🗽', name: 'Freiheitsstatue' }
+        { 
+            id: 1,
+            tierEmoji: '🦁', 
+            tierName: 'Löwe', 
+            fakt: 'König der Tiere',
+            kontinent: 'afrika',
+            kontinentName: 'Afrika',
+            kontinentEmoji: '🌍'
+        },
+        { 
+            id: 2,
+            tierEmoji: '🐘', 
+            tierName: 'Elefant', 
+            fakt: 'Größtes Landtier',
+            kontinent: 'afrika',
+            kontinentName: 'Afrika',
+            kontinentEmoji: '🌍'
+        },
+        { 
+            id: 3,
+            tierEmoji: '🐼', 
+            tierName: 'Panda', 
+            fakt: 'Isst nur Bambus',
+            kontinent: 'asien',
+            kontinentName: 'Asien',
+            kontinentEmoji: '🐼'
+        },
+        { 
+            id: 4,
+            tierEmoji: '🦘', 
+            tierName: 'Känguru', 
+            fakt: 'Kann hüpfen',
+            kontinent: 'australien',
+            kontinentName: 'Australien',
+            kontinentEmoji: '🦘'
+        },
+        { 
+            id: 5,
+            tierEmoji: '🗼', 
+            tierName: 'Eiffelturm', 
+            fakt: 'In Paris',
+            kontinent: 'europa',
+            kontinentName: 'Europa',
+            kontinentEmoji: '🏰'
+        },
+        { 
+            id: 6,
+            tierEmoji: '🏛️', 
+            tierName: 'Pyramiden', 
+            fakt: 'Seit 4000 Jahren',
+            kontinent: 'afrika',
+            kontinentName: 'Afrika',
+            kontinentEmoji: '🌍'
+        },
+        { 
+            id: 7,
+            tierEmoji: '🗽', 
+            tierName: 'Freiheitsstatue', 
+            fakt: 'In New York',
+            kontinent: 'nordamerika',
+            kontinentName: 'Nordamerika',
+            kontinentEmoji: '🗽'
+        },
+        { 
+            id: 8,
+            tierEmoji: '🦜', 
+            tierName: 'Papagei', 
+            fakt: 'Kann sprechen',
+            kontinent: 'suedamerika',
+            kontinentName: 'Südamerika',
+            kontinentEmoji: '🦜'
+        }
     ];
 
-    memoryCards = shuffle([...pairs, ...pairs].map((p, i) => ({
-        id: i,
-        ...p,
-        matched: false
-    })));
+    // Erstelle Karten: Für jedes Paar eine Tier-Karte und eine Kontinent-Karte
+    let cards = [];
+    pairs.forEach(pair => {
+        // Tier-Karte
+        cards.push({
+            id: pair.id,
+            type: 'tier',
+            content: `${pair.tierEmoji}`,
+            subtext: pair.tierName,
+            fakt: pair.fakt,
+            kontinent: pair.kontinent,
+            matched: false
+        });
+        // Kontinent-Karte
+        cards.push({
+            id: pair.id,
+            type: 'kontinent',
+            content: pair.kontinentEmoji,
+            subtext: pair.kontinentName,
+            kontinent: pair.kontinent,
+            matched: false
+        });
+    });
 
+    memoryCards = shuffle(cards);
     flippedCards = [];
     matchedPairs = 0;
     moves = 0;
@@ -486,7 +570,10 @@ function renderMemoryGrid() {
     const grid = document.getElementById('memory-grid');
     grid.innerHTML = memoryCards.map((card, idx) => `
         <div class="memory-card" data-index="${idx}">
-            <span class="front">${card.emoji}</span>
+            <span class="front">
+                <span class="memory-emoji">${card.content}</span>
+                <span class="memory-text">${card.subtext}</span>
+            </span>
             <span class="back">❓</span>
         </div>
     `).join('');
@@ -520,7 +607,8 @@ function handleMemoryClick(cardEl) {
         const card1 = memoryCards[first];
         const card2 = memoryCards[second];
 
-        if (card1.emoji === card2.emoji) {
+        // Match: Gleiche Paar-ID aber verschiedene Typen (tier + kontinent)
+        if (card1.id === card2.id && card1.type !== card2.type) {
             // Match!
             card1.matched = true;
             card2.matched = true;
