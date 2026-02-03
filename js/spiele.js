@@ -571,7 +571,6 @@ function renderMemoryGrid() {
     grid.innerHTML = memoryCards.map((card, idx) => `
         <div class="memory-card" data-index="${idx}">
             <span class="front">
-                <span class="memory-emoji">${card.content}</span>
                 <span class="memory-text">${card.subtext}</span>
             </span>
             <span class="back">❓</span>
