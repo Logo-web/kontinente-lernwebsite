@@ -53,9 +53,12 @@ const kontinentNamen = {
     'australien': 'Australien', 'antarktis': 'Antarktis'
 };
 
+// Für Spiele: Nur Kontinente die auf der Karte existieren (ohne Antarktis)
+// Antarktis ist nicht in mapsvg-world.svg vorhanden und wurde aus der Legende entfernt
+const spielKontinente = ['afrika', 'europa', 'asien', 'nordamerika', 'suedamerika', 'australien'];
+
 // Nur für Weltkarten-Spiel: Kontinente, die tatsächlich auf der SVG-Karte existieren
-// Antarktis ist nicht in mapsvg-world.svg vorhanden
-const weltkarteKontinente = ['afrika', 'europa', 'asien', 'nordamerika', 'suedamerika', 'australien'];
+const weltkarteKontinente = spielKontinente;
 
 // ========================================
 // INITIALISIERUNG
@@ -381,9 +384,8 @@ function showZuordnungItem() {
     document.getElementById('zuordnung-emoji').textContent = emojiMap[bildKey] || '❓';
     document.getElementById('zuordnung-name').textContent = item.item;
 
-    // Kontinente als Optionen (inkl. richtige Antwort)
-    const allKontinente = Object.keys(kontinentNamen);
-    const wrongOptions = shuffle(allKontinente.filter(k => k !== item.kontinent)).slice(0, 3);
+    // Kontinente als Optionen (nur die 6 auf der Karte vorhandenen, ohne Antarktis)
+    const wrongOptions = shuffle(spielKontinente.filter(k => k !== item.kontinent)).slice(0, 3);
     const options = shuffle([item.kontinent, ...wrongOptions]);
 
     const container = document.getElementById('zuordnung-options');
