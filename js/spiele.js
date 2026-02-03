@@ -228,14 +228,29 @@ function showFeedback(correct, message) {
 
 let quizQuestions = [];
 
+// Hilfsfunktion: Filtert Antarktis-Content aus den Daten
+function filterAntarktisContent(data) {
+    if (!data) return data;
+    
+    // Filtert Einträge die "antarktis" enthalten (case-insensitive)
+    const hasAntarktis = (item) => {
+        if (!item) return false;
+        const itemStr = JSON.stringify(item).toLowerCase();
+        return itemStr.includes('antarktis');
+    };
+    
+    return data.filter(item => !hasAntarktis(item));
+}
+
 function initQuiz() {
     document.getElementById('quiz-spiel').classList.remove('hidden');
     document.getElementById('spiel-titel').textContent = '❓ Quiz';
 
     // Fragen zusammenstellen (Mix aus allen Schwierigkeiten)
-    const leicht = [...gameData.quiz.leicht];
-    const mittel = [...gameData.quiz.mittel];
-    const schwer = [...gameData.quiz.schwer];
+    // Antarktis-Content wird herausgefiltert
+    const leicht = filterAntarktisContent([...gameData.quiz.leicht]);
+    const mittel = filterAntarktisContent([...gameData.quiz.mittel]);
+    const schwer = filterAntarktisContent([...gameData.quiz.schwer]);
 
     // Shuffle und auswählen
     quizQuestions = [
@@ -319,7 +334,8 @@ function initRichtigFalsch() {
     document.getElementById('richtigfalsch-spiel').classList.remove('hidden');
     document.getElementById('spiel-titel').textContent = '✅ Richtig oder Falsch?';
 
-    rfStatements = shuffle([...gameData.richtigFalsch]).slice(0, 6);
+    // Antarktis-Content herausfiltern
+    rfStatements = shuffle(filterAntarktisContent([...gameData.richtigFalsch])).slice(0, 6);
     totalQuestions = rfStatements.length;
     currentQuestion = 0;
 
@@ -365,7 +381,8 @@ function initZuordnung() {
     document.getElementById('zuordnung-spiel').classList.remove('hidden');
     document.getElementById('spiel-titel').textContent = '🎯 Zuordnung';
 
-    zuordnungItems = shuffle([...gameData.zuordnung]).slice(0, 6);
+    // Antarktis-Content herausfiltern
+    zuordnungItems = shuffle(filterAntarktisContent([...gameData.zuordnung])).slice(0, 6);
     totalQuestions = zuordnungItems.length;
     currentQuestion = 0;
 
