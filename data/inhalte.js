@@ -435,13 +435,6 @@ const KONTINENTE_DATA = {
                 "antwort": 2,
                 "bild": "giraffe.jpg"
             },
-            /* Deaktiviert - Antarktis nicht auf der Karte
-            {
-                "frage": "Wo leben Pinguine?",
-                "optionen": ["Antarktis", "Afrika", "Asien"],
-                "antwort": 0,
-                "bild": "pinguin.jpg"
-            }, */
             {
                 "frage": "In welchem Kontinent steht der Eiffelturm?",
                 "optionen": ["Nordamerika", "Europa", "Asien"],
@@ -459,6 +452,66 @@ const KONTINENTE_DATA = {
                 "optionen": ["Südamerika", "Europa", "Australien"],
                 "antwort": 0,
                 "bild": "amazonas.jpg"
+            },
+            {
+                "frage": "Welches Tier ist der König der Tiere?",
+                "optionen": ["Tiger", "Löwe", "Elefant"],
+                "antwort": 1,
+                "bild": "loewe.jpg"
+            },
+            {
+                "frage": "Wo lebt der Koala?",
+                "optionen": ["Australien", "Afrika", "Europa"],
+                "antwort": 0,
+                "bild": "koala.jpg"
+            },
+            {
+                "frage": "Welches Tier ist schwarz-weiß und frisst Bambus?",
+                "optionen": ["Zebra", "Panda", "Kuh"],
+                "antwort": 1,
+                "bild": "panda.jpg"
+            },
+            {
+                "frage": "Wo steht die Freiheitsstatue?",
+                "optionen": ["Europa", "Südamerika", "Nordamerika"],
+                "antwort": 2,
+                "bild": "freiheitsstatue.jpg"
+            },
+            {
+                "frage": "Welches Tier hat Streifen und lebt in Asien?",
+                "optionen": ["Löwe", "Tiger", "Bär"],
+                "antwort": 1,
+                "bild": "tiger.jpg"
+            },
+            {
+                "frage": "Welches Tier hüpft auf seinen Hinterbeinen?",
+                "optionen": ["Elefant", "Känguru", "Löwe"],
+                "antwort": 1,
+                "bild": "kaenguru.jpg"
+            },
+            {
+                "frage": "Wo stehen die Pyramiden?",
+                "optionen": ["Afrika", "Asien", "Europa"],
+                "antwort": 0,
+                "bild": "pyramiden.jpg"
+            },
+            {
+                "frage": "Welches Tier ist das größte Landtier?",
+                "optionen": ["Giraffe", "Elefant", "Nashorn"],
+                "antwort": 1,
+                "bild": "elefant.jpg"
+            },
+            {
+                "frage": "Welches Tier bewegt sich ganz langsam?",
+                "optionen": ["Gepard", "Faultier", "Hase"],
+                "antwort": 1,
+                "bild": "faultier.jpg"
+            },
+            {
+                "frage": "Wo leben Wölfe?",
+                "optionen": ["Australien", "Europa", "Südamerika"],
+                "antwort": 1,
+                "bild": "wolf.jpg"
             }
         ],
         "mittel": [
@@ -469,37 +522,61 @@ const KONTINENTE_DATA = {
                 "antwort": 1
             },
             {
-                "info": "Die Chinesische Mauer ist über 21.000 km lang!",
-                "frage": "Die Chinesische Mauer ist über ____ km lang.",
-                "optionen": ["1.000", "5.000", "21.000"],
+                "info": "Die Chinesische Mauer ist sehr, sehr lang!",
+                "frage": "In welchem Land steht die Chinesische Mauer?",
+                "optionen": ["Japan", "Indien", "China"],
                 "antwort": 2
             },
             {
-                "info": "Der Mount Everest ist 8849 Meter hoch!",
-                "frage": "Wie hoch ist der Mount Everest?",
-                "optionen": ["5000 Meter", "8849 Meter", "12000 Meter"],
+                "info": "Der Mount Everest ist der höchste Berg der Welt!",
+                "frage": "Auf welchem Kontinent ist der Mount Everest?",
+                "optionen": ["Europa", "Asien", "Nordamerika"],
                 "antwort": 1
             },
             {
                 "info": "Das Schnabeltier ist eines der wenigen Säugetiere, die Eier legen!",
                 "frage": "Was ist besonders am Schnabeltier?",
-                "optionen": ["Es kann fliegen", "Es legt Eier", "Es lebt im Wasser"],
+                "optionen": ["Es kann fliegen", "Es legt Eier", "Es hat Flügel"],
                 "antwort": 1
             },
             {
-                "info": "Die Aborigines leben seit über 50.000 Jahren in Australien!",
+                "info": "Die Aborigines sind die Ureinwohner Australiens!",
                 "frage": "Wie nennt man die Ureinwohner Australiens?",
-                "optionen": ["Maasai", "Inuit", "Aborigines"],
+                "optionen": ["Maasai", "Indianer", "Aborigines"],
                 "antwort": 2
+            },
+            {
+                "info": "Löwen schlafen sehr viel - bis zu 20 Stunden am Tag!",
+                "frage": "Wie viele Stunden schlafen Löwen am Tag?",
+                "optionen": ["5 Stunden", "10 Stunden", "20 Stunden"],
+                "antwort": 2
+            },
+            {
+                "info": "Die Sahara ist die größte heiße Wüste der Welt!",
+                "frage": "Auf welchem Kontinent liegt die Sahara?",
+                "optionen": ["Asien", "Afrika", "Australien"],
+                "antwort": 1
+            },
+            {
+                "info": "Die Alpen sind hohe Berge mit Schnee auf den Gipfeln!",
+                "frage": "Auf welchem Kontinent liegen die Alpen?",
+                "optionen": ["Nordamerika", "Asien", "Europa"],
+                "antwort": 2
+            },
+            {
+                "info": "Das Baby-Känguru heißt Joey und lebt im Beutel der Mama!",
+                "frage": "Wie heißt ein Baby-Känguru?",
+                "optionen": ["Welpe", "Joey", "Kalb"],
+                "antwort": 1
+            },
+            {
+                "info": "Die Zunge einer Giraffe ist sehr lang - bis zu 50 cm!",
+                "frage": "Welches Tier hat eine 50 cm lange Zunge?",
+                "optionen": ["Elefant", "Giraffe", "Löwe"],
+                "antwort": 1
             }
         ],
         "schwer": [
-            /* Deaktiviert - Antarktis nicht auf der Karte
-            {
-                "frage": "Welcher Kontinent hat keine dauerhaften Bewohner?",
-                "optionen": ["Australien", "Antarktis", "Südamerika"],
-                "antwort": 1
-            }, */
             {
                 "frage": "Machu Picchu wurde von welchem Volk gebaut?",
                 "optionen": ["Maya", "Inka", "Azteken"],
@@ -508,6 +585,36 @@ const KONTINENTE_DATA = {
             {
                 "frage": "Welches Tier lebt NICHT in Afrika?",
                 "optionen": ["Elefant", "Koala", "Giraffe"],
+                "antwort": 1
+            },
+            {
+                "frage": "Welches ist der größte Kontinent?",
+                "optionen": ["Afrika", "Nordamerika", "Asien"],
+                "antwort": 2
+            },
+            {
+                "frage": "In welchem Land ist der Eiffelturm?",
+                "optionen": ["Deutschland", "Frankreich", "Italien"],
+                "antwort": 1
+            },
+            {
+                "frage": "Welches Tier kann sprechen lernen?",
+                "optionen": ["Papagei", "Tiger", "Elefant"],
+                "antwort": 0
+            },
+            {
+                "frage": "Welches Tier hat ein einzigartiges Streifenmuster?",
+                "optionen": ["Löwe", "Tiger", "Elefant"],
+                "antwort": 1
+            },
+            {
+                "frage": "In welchem Kontinent ist der Grand Canyon?",
+                "optionen": ["Europa", "Nordamerika", "Südamerika"],
+                "antwort": 1
+            },
+            {
+                "frage": "Welches Meer liegt zwischen Deutschland und England?",
+                "optionen": ["Mittelmeer", "Nordsee", "Ostsee"],
                 "antwort": 1
             }
         ]
@@ -526,12 +633,6 @@ const KONTINENTE_DATA = {
         { "item": "Tiger", "kontinent": "asien", "bild": "tiger.jpg" }
     ],
     "richtigFalsch": [
-        /* Deaktiviert - Antarktis nicht auf der Karte
-        {
-            "aussage": "Pinguine leben am Nordpol.",
-            "antwort": false,
-            "erklaerung": "Pinguine leben in der Antarktis, am Südpol!"
-        }, */
         {
             "aussage": "Der Eiffelturm steht in Paris.",
             "antwort": true,
@@ -566,6 +667,61 @@ const KONTINENTE_DATA = {
             "aussage": "Im Regenwald regnet es nie.",
             "antwort": false,
             "erklaerung": "Im Regenwald regnet es fast jeden Tag!"
+        },
+        {
+            "aussage": "Löwen leben in Afrika.",
+            "antwort": true,
+            "erklaerung": "Richtig! Löwen leben in der afrikanischen Savanne."
+        },
+        {
+            "aussage": "Der Panda frisst Bambus.",
+            "antwort": true,
+            "erklaerung": "Richtig! Pandas fressen fast nur Bambus."
+        },
+        {
+            "aussage": "Tiger haben Punkte auf dem Fell.",
+            "antwort": false,
+            "erklaerung": "Tiger haben Streifen, keine Punkte!"
+        },
+        {
+            "aussage": "Die Giraffe hat den längsten Hals.",
+            "antwort": true,
+            "erklaerung": "Richtig! Kein anderes Tier hat so einen langen Hals."
+        },
+        {
+            "aussage": "Elefanten sind kleine Tiere.",
+            "antwort": false,
+            "erklaerung": "Elefanten sind die größten Landtiere der Welt!"
+        },
+        {
+            "aussage": "Das Känguru kann hüpfen.",
+            "antwort": true,
+            "erklaerung": "Richtig! Kängurus hüpfen auf ihren Hinterbeinen."
+        },
+        {
+            "aussage": "Die Pyramiden stehen in Europa.",
+            "antwort": false,
+            "erklaerung": "Die Pyramiden stehen in Ägypten, das ist in Afrika!"
+        },
+        {
+            "aussage": "Faultiere bewegen sich sehr schnell.",
+            "antwort": false,
+            "erklaerung": "Faultiere sind sehr langsam - daher der Name!"
+        },
+        {
+            "aussage": "Die Alpen sind Berge in Europa.",
+            "antwort": true,
+            "erklaerung": "Richtig! Die Alpen sind hohe Berge in Europa."
+        },
+        {
+            "aussage": "Papageien können sprechen lernen.",
+            "antwort": true,
+            "erklaerung": "Richtig! Manche Papageien können Wörter nachsprechen."
+        },
+        {
+            "aussage": "Wölfe leben alleine.",
+            "antwort": false,
+            "erklaerung": "Wölfe leben in Gruppen, die man Rudel nennt!"
         }
     ]
 };

@@ -168,6 +168,9 @@ function startGame(gameType) {
         case 'weltkarte':
             initWeltkarte();
             break;
+        case 'dragdrop':
+            initDragDrop();
+            break;
     }
 }
 
@@ -934,6 +937,224 @@ function showClickFeedback(element, emoji, color) {
             feedbackText.parentNode.removeChild(feedbackText);
         }
     }, 800);
+}
+
+// ========================================
+// DRAG & DROP
+// ========================================
+
+let ddItems = [];
+let ddPlacedItems = 0;
+let ddTotalItems = 6;
+let ddDraggedItem = null;
+
+function initDragDrop() {
+    document.getElementById('dragdrop-spiel').classList.remove('hidden');
+    document.getElementById('spiel-titel').textContent = '🖐️ Drag & Drop';
+
+    // Items aus zuordnung-Daten holen (ohne Antarktis)
+    const allItems = filterAntarktisContent([...gameData.zuordnung]);
+    ddItems = shuffle(allItems).slice(0, ddTotalItems);
+    ddPlacedItems = 0;
+    currentScore = 0;
+
+    renderDragDropItems();
+    setupDropZones();
+    updateDDInfo();
+}
+
+function renderDragDropItems() {
+    const container = document.getElementById('dd-items');
+    container.innerHTML = ddItems.map((item, idx) => {
+        const bildKey = item.bild.replace('.jpg', '');
+        const emoji = emojiMap[bildKey] || '❓';
+        
+        return `
+            <div class="dd-item" draggable="true" data-index="${idx}" data-kontinent="${item.kontinent}">
+                <span class="dd-item-emoji">${emoji}</span>
+                <span class="dd-item-name">${item.item}</span>
+            </div>
+        `;
+    }).join('');
+
+    // Event Listeners für Drag
+    container.querySelectorAll('.dd-item').forEach(item => {
+        // Desktop: Drag Events
+        item.addEventListener('dragstart', handleDragStart);
+        item.addEventListener('dragend', handleDragEnd);
+        
+        // Mobile: Touch Events
+        item.addEventListener('touchstart', handleTouchStart, { passive: false });
+        item.addEventListener('touchmove', handleTouchMove, { passive: false });
+        item.addEventListener('touchend', handleTouchEnd);
+    });
+}
+
+function setupDropZones() {
+    document.querySelectorAll('.dd-dropzone').forEach(zone => {
+        zone.addEventListener('dragover', handleDragOver);
+        zone.addEventListener('dragenter', handleDragEnter);
+        zone.addEventListener('dragleave', handleDragLeave);
+        zone.addEventListener('drop', handleDrop);
+    });
+}
+
+function updateDDInfo() {
+    document.getElementById('dd-score').textContent = `Punkte: ${currentScore}`;
+    document.getElementById('dd-remaining').textContent = `Noch: ${ddTotalItems - ddPlacedItems} Items`;
+}
+
+// Desktop Drag Events
+function handleDragStart(e) {
+    ddDraggedItem = e.target;
+    e.target.classList.add('dragging');
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/plain', e.target.dataset.index);
+}
+
+function handleDragEnd(e) {
+    e.target.classList.remove('dragging');
+    document.querySelectorAll('.dd-dropzone').forEach(zone => {
+        zone.classList.remove('dragover');
+    });
+}
+
+function handleDragOver(e) {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+}
+
+function handleDragEnter(e) {
+    e.preventDefault();
+    e.currentTarget.classList.add('dragover');
+}
+
+function handleDragLeave(e) {
+    e.currentTarget.classList.remove('dragover');
+}
+
+function handleDrop(e) {
+    e.preventDefault();
+    const zone = e.currentTarget;
+    zone.classList.remove('dragover');
+    
+    if (!ddDraggedItem) return;
+    
+    const droppedKontinent = zone.dataset.kontinent;
+    const itemKontinent = ddDraggedItem.dataset.kontinent;
+    
+    checkDDAnswer(ddDraggedItem, droppedKontinent, itemKontinent, zone);
+}
+
+// Mobile Touch Events
+function handleTouchStart(e) {
+    const touch = e.touches[0];
+    ddDraggedItem = e.target.closest('.dd-item');
+    if (!ddDraggedItem) return;
+    
+    ddDraggedItem.classList.add('dragging');
+    ddDraggedItem.style.position = 'fixed';
+    ddDraggedItem.style.zIndex = '1000';
+    moveDraggedItem(touch.clientX, touch.clientY);
+}
+
+function handleTouchMove(e) {
+    if (!ddDraggedItem) return;
+    e.preventDefault();
+    
+    const touch = e.touches[0];
+    moveDraggedItem(touch.clientX, touch.clientY);
+    
+    // Highlight dropzone under finger
+    const elemBelow = document.elementFromPoint(touch.clientX, touch.clientY);
+    const dropzone = elemBelow?.closest('.dd-dropzone');
+    
+    document.querySelectorAll('.dd-dropzone').forEach(zone => {
+        zone.classList.remove('dragover');
+    });
+    
+    if (dropzone) {
+        dropzone.classList.add('dragover');
+    }
+}
+
+function handleTouchEnd(e) {
+    if (!ddDraggedItem) return;
+    
+    const touch = e.changedTouches[0];
+    const elemBelow = document.elementFromPoint(touch.clientX, touch.clientY);
+    const dropzone = elemBelow?.closest('.dd-dropzone');
+    
+    // Reset Position
+    ddDraggedItem.style.position = '';
+    ddDraggedItem.style.zIndex = '';
+    ddDraggedItem.style.left = '';
+    ddDraggedItem.style.top = '';
+    ddDraggedItem.classList.remove('dragging');
+    
+    document.querySelectorAll('.dd-dropzone').forEach(zone => {
+        zone.classList.remove('dragover');
+    });
+    
+    if (dropzone) {
+        const droppedKontinent = dropzone.dataset.kontinent;
+        const itemKontinent = ddDraggedItem.dataset.kontinent;
+        checkDDAnswer(ddDraggedItem, droppedKontinent, itemKontinent, dropzone);
+    }
+    
+    ddDraggedItem = null;
+}
+
+function moveDraggedItem(x, y) {
+    if (!ddDraggedItem) return;
+    const rect = ddDraggedItem.getBoundingClientRect();
+    ddDraggedItem.style.left = (x - rect.width / 2) + 'px';
+    ddDraggedItem.style.top = (y - rect.height / 2) + 'px';
+}
+
+function checkDDAnswer(item, droppedKontinent, correctKontinent, zone) {
+    if (droppedKontinent === correctKontinent) {
+        // Richtig!
+        item.classList.add('correct');
+        item.draggable = false;
+        item.style.opacity = '0.5';
+        item.style.pointerEvents = 'none';
+        
+        zone.classList.add('correct-drop');
+        setTimeout(() => zone.classList.remove('correct-drop'), 500);
+        
+        currentScore += 10;
+        ddPlacedItems++;
+        updateDDInfo();
+        
+        showDDFeedback(true, `✅ Richtig! ${item.querySelector('.dd-item-name').textContent} gehört zu ${kontinentNamen[correctKontinent]}!`);
+        
+        if (ddPlacedItems >= ddTotalItems) {
+            setTimeout(showResult, 1000);
+        }
+    } else {
+        // Falsch - Shake Animation
+        item.classList.add('wrong-shake');
+        zone.classList.add('wrong-drop');
+        
+        setTimeout(() => {
+            item.classList.remove('wrong-shake');
+            zone.classList.remove('wrong-drop');
+        }, 500);
+        
+        showDDFeedback(false, `❌ Nein, das gehört nicht zu ${kontinentNamen[droppedKontinent]}!`);
+    }
+}
+
+function showDDFeedback(correct, message) {
+    const feedback = document.getElementById('dd-feedback');
+    feedback.textContent = message;
+    feedback.className = `feedback ${correct ? 'correct' : 'wrong'}`;
+    feedback.classList.remove('hidden');
+    
+    setTimeout(() => {
+        feedback.classList.add('hidden');
+    }, 2000);
 }
 
 // ========================================

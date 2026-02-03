@@ -205,6 +205,10 @@
                 <span class="icon">🗺️</span>
                 <span class="name">Weltkarten-Klick</span>
             </button>
+            <button class="game-select-btn" data-spiel="dragdrop">
+                <span class="icon">🖐️</span>
+                <span class="name">Drag & Drop</span>
+            </button>
         </div>
     </div>
 
@@ -289,6 +293,43 @@
             </div>
         </div>
         <div id="wk-feedback" class="feedback hidden"></div>
+    </div>
+
+    <!-- Drag & Drop Spiel -->
+    <div id="dragdrop-spiel" class="spiel-container hidden">
+        <div class="spiel-content">
+            <div class="dd-info">
+                <span id="dd-score">Punkte: 0</span>
+                <span id="dd-remaining">Noch: 6 Items</span>
+            </div>
+            <p class="dd-instruction">🖐️ Ziehe die Bilder auf den richtigen Kontinent!</p>
+            <div id="dd-items" class="dd-items-container">
+                <!-- Items werden per JavaScript eingefügt -->
+            </div>
+            <div class="dd-map-container">
+                <div class="dd-dropzones">
+                    <div class="dd-dropzone" data-kontinent="europa">
+                        <span class="dd-zone-label">🏰 Europa</span>
+                    </div>
+                    <div class="dd-dropzone" data-kontinent="asien">
+                        <span class="dd-zone-label">🐼 Asien</span>
+                    </div>
+                    <div class="dd-dropzone" data-kontinent="afrika">
+                        <span class="dd-zone-label">🌍 Afrika</span>
+                    </div>
+                    <div class="dd-dropzone" data-kontinent="nordamerika">
+                        <span class="dd-zone-label">🗽 Nordamerika</span>
+                    </div>
+                    <div class="dd-dropzone" data-kontinent="suedamerika">
+                        <span class="dd-zone-label">🦜 Südamerika</span>
+                    </div>
+                    <div class="dd-dropzone" data-kontinent="australien">
+                        <span class="dd-zone-label">🦘 Australien</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="dd-feedback" class="feedback hidden"></div>
     </div>
 
     <!-- Ergebnis-Screen -->
