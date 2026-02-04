@@ -1094,7 +1094,10 @@ function handleTouchMove(e) {
     moveDraggedItem(touch.clientX, touch.clientY);
     
     // Highlight dropzone under finger
+    // Dragged item muss kurz versteckt werden, damit elementFromPoint das Element darunter findet
+    ddDraggedItem.style.visibility = 'hidden';
     const elemBelow = document.elementFromPoint(touch.clientX, touch.clientY);
+    ddDraggedItem.style.visibility = '';
     const dropzone = elemBelow?.closest('.dd-dropzone');
     
     document.querySelectorAll('.dd-dropzone').forEach(zone => {
@@ -1110,9 +1113,12 @@ function handleTouchEnd(e) {
     if (!ddDraggedItem) return;
     
     const touch = e.changedTouches[0];
+    // Dragged item muss kurz versteckt werden, damit elementFromPoint das Element darunter findet
+    ddDraggedItem.style.visibility = 'hidden';
     const elemBelow = document.elementFromPoint(touch.clientX, touch.clientY);
+    ddDraggedItem.style.visibility = '';
     const dropzone = elemBelow?.closest('.dd-dropzone');
-    
+
     // Reset Position
     ddDraggedItem.style.position = '';
     ddDraggedItem.style.zIndex = '';
